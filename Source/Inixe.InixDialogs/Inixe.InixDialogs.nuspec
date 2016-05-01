@@ -1,0 +1,15 @@
+﻿<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <id>InixDialogs</id>
+    <version>1.0</version>
+	<title>Inixe InixDialogs</title>
+    <authors>Ingemar Parra H.</authors>
+    <owners>Ingemar Parra H.</owners>
+    <licenseUrl>https://opensource.org/licenses/MIT</licenseUrl>
+	<requireLicenseAcceptance>True</requireLicenseAcceptance>    
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>A set of dialogs for WPF. Modal dialogs for MVVM</description>
+    <tags>MVVM WPF</tags>    	
+  </metadata>
+</package>
