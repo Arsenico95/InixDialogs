@@ -1,0 +1,49 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.40629.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Inixe.InixDialogs", "Source\Inixe.InixDialogs\Inixe.InixDialogs.csproj", "{C0000733-1E4B-4EB5-9F1A-C5C2DD094ED8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Inixe.InixDialogs.Tests", "Source\Inixe.InixDialogs.Tests\Inixe.InixDialogs.Tests.csproj", "{9DC6AB2A-B1D4-48FE-8C1E-01A2FAE3AEAB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Inixe.InixDialogs.Demo", "Source\Inixe.InixDialogs.Demo\Inixe.InixDialogs.Demo.csproj", "{077FF5EA-7732-4E3A-8D23-8D9EF5C4970C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{9F87EDF7-2792-4988-9C93-6A22BA1A8DF2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Inixe.InixDialogs.Demo.Tests", "Source\Inixe.InixDialogs.Demo.Tests\Inixe.InixDialogs.Demo.Tests.csproj", "{0BAD59C2-C0EA-431E-8E94-606681F25787}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Package Publish|Any CPU = Package Publish|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C0000733-1E4B-4EB5-9F1A-C5C2DD094ED8}.Debug|Any CPU.ActiveCfg = Package Publish|Any CPU
+		{C0000733-1E4B-4EB5-9F1A-C5C2DD094ED8}.Debug|Any CPU.Build.0 = Package Publish|Any CPU
+		{C0000733-1E4B-4EB5-9F1A-C5C2DD094ED8}.Package Publish|Any CPU.ActiveCfg = Release|Any CPU
+		{C0000733-1E4B-4EB5-9F1A-C5C2DD094ED8}.Package Publish|Any CPU.Build.0 = Release|Any CPU
+		{C0000733-1E4B-4EB5-9F1A-C5C2DD094ED8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C0000733-1E4B-4EB5-9F1A-C5C2DD094ED8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9DC6AB2A-B1D4-48FE-8C1E-01A2FAE3AEAB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9DC6AB2A-B1D4-48FE-8C1E-01A2FAE3AEAB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9DC6AB2A-B1D4-48FE-8C1E-01A2FAE3AEAB}.Package Publish|Any CPU.ActiveCfg = Release|Any CPU
+		{9DC6AB2A-B1D4-48FE-8C1E-01A2FAE3AEAB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9DC6AB2A-B1D4-48FE-8C1E-01A2FAE3AEAB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{077FF5EA-7732-4E3A-8D23-8D9EF5C4970C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{077FF5EA-7732-4E3A-8D23-8D9EF5C4970C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{077FF5EA-7732-4E3A-8D23-8D9EF5C4970C}.Package Publish|Any CPU.ActiveCfg = Release|Any CPU
+		{077FF5EA-7732-4E3A-8D23-8D9EF5C4970C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{077FF5EA-7732-4E3A-8D23-8D9EF5C4970C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0BAD59C2-C0EA-431E-8E94-606681F25787}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0BAD59C2-C0EA-431E-8E94-606681F25787}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0BAD59C2-C0EA-431E-8E94-606681F25787}.Package Publish|Any CPU.ActiveCfg = Release|Any CPU
+		{0BAD59C2-C0EA-431E-8E94-606681F25787}.Package Publish|Any CPU.Build.0 = Release|Any CPU
+		{0BAD59C2-C0EA-431E-8E94-606681F25787}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0BAD59C2-C0EA-431E-8E94-606681F25787}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
