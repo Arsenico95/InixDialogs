@@ -9,9 +9,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Inixe.InixDialogs.Tests", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Inixe.InixDialogs.Demo", "Source\Inixe.InixDialogs.Demo\Inixe.InixDialogs.Demo.csproj", "{077FF5EA-7732-4E3A-8D23-8D9EF5C4970C}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{9F87EDF7-2792-4988-9C93-6A22BA1A8DF2}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Inixe.InixDialogs.Demo.Tests", "Source\Inixe.InixDialogs.Demo.Tests\Inixe.InixDialogs.Demo.Tests.csproj", "{0BAD59C2-C0EA-431E-8E94-606681F25787}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{9F13CEF5-D972-486C-8601-CB793AA8295A}"
+	ProjectSection(SolutionItems) = preProject
+		LICENSE = LICENSE
+		README.md = README.md
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

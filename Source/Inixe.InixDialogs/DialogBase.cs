@@ -32,12 +32,23 @@ namespace Inixe.InixDialogs
 	using System.Windows.Controls;
 	using System.Windows.Input;
 	using System.Windows;
+	using System.Windows.Controls.Primitives;
+	using System.Windows.Data;
 
 	/// <summary>
 	/// Class DialogBase.
-	/// </summary>
-    public abstract class DialogBase : Control
+	/// </summary>    
+	[TemplatePart(Name = "Popup_PART", Type = typeof(Popup))]
+	[TemplatePart(Name = "Button1_PART", Type = typeof(Button))]
+	[TemplatePart(Name = "Button2_PART", Type = typeof(Button))]
+	[TemplatePart(Name = "Button3_PART", Type = typeof(Button))]
+	public abstract class DialogBase : Popup
     {
+		private Popup _popUp;
+		private Button _button1;
+        private Button _button2;
+        private Button _button3;
+
 		internal static readonly DependencyPropertyKey IsOpenProperty;
 				
 		/// <summary>
@@ -61,9 +72,43 @@ namespace Inixe.InixDialogs
 		/// </summary>
 		public DialogBase()
 		{
-			this.Loaded += DialogBase_Loaded;
+			_popUp = null;
+			_button1 = null;
+			_button2 = null;
+			_button3 = null;
 		}
-		
+
+		protected Button Button1
+		{
+			get
+			{
+				return _button1;
+			}
+		}
+
+		protected Button Button2
+		{
+			get
+			{
+				return _button2;
+			}
+		}
+
+		protected Button Button3
+		{
+			get
+			{
+				return _button3;
+			}
+		}
+
+		public Popup PopUp
+		{
+			get
+			{
+				return _popUp;
+			}
+		}
 		internal bool IsOpen
 		{		
 			get
@@ -76,16 +121,36 @@ namespace Inixe.InixDialogs
 		{		
 			get
 			{
-				return (IDialogMediator)this.GetValue(MediatorProperty);
+				return (IDialogMediator)GetValue(MediatorProperty);
 			}
 			set
 			{
-				this.SetValue(MediatorProperty, value);
+				SetValue(MediatorProperty, value);
 			}
 		}
 
-		protected abstract void CloseDialog();
-		
+		protected override void OnInitialized(EventArgs e)
+		{
+			base.OnInitialized(e);
+
+			//This Will Happen Before Loaded
+			RegisterMediator();		
+		}
+
+		public sealed override void OnApplyTemplate()
+		{
+			base.OnApplyTemplate();
+
+			_popUp = (Popup) GetTemplateChild("Popup_PART");
+			_button1 = (Button)GetTemplateChild("Button1_PART");
+			_button2 = (Button)GetTemplateChild("Button2_PART");
+			_button3 = (Button)GetTemplateChild("Button3_PART");
+
+			_button1.Click += Button_Click;
+			_button2.Click += Button_Click;
+			_button3.Click += Button_Click;
+		}
+
 		protected virtual void OnIsOpenChanged(bool oldValue, bool newValue)
 		{
 			// Let inheritors use this
@@ -97,10 +162,16 @@ namespace Inixe.InixDialogs
 			IShowDialogEvents newEvents = newValue as IShowDialogEvents;
 
 			if (oldEvents != null)
-				oldEvents.Show -= this.DialogEvents_Show;
+				oldEvents.Show -= DialogEvents_Show;
 
 			if (newEvents != null)
-				newEvents.Show += this.DialogEvents_Show;
+				newEvents.Show += DialogEvents_Show;
+			else			
+			{
+				RegisterMediator();
+				var res = GetBindingExpression(MediatorProperty);
+				res.UpdateSource();
+			}
 		}
 
 		protected virtual IDialogMediator CreateMediator()
@@ -108,7 +179,7 @@ namespace Inixe.InixDialogs
 			IDialogMediator retval = new SimpleDialogMediator();
 
 			IShowDialogEvents dialogEvents = (IShowDialogEvents)retval;
-			dialogEvents.Show += this.DialogEvents_Show;
+			dialogEvents.Show += DialogEvents_Show;
 
 			return retval;
 		}
@@ -127,19 +198,28 @@ namespace Inixe.InixDialogs
 				dialogBase.OnIsOpenChanged((bool)e.OldValue, (bool)e.NewValue);
 		}
 
-		private void DialogBase_Loaded(object sender, System.Windows.RoutedEventArgs e)
-		{			
-			if (this.Mediator == null)			
-				this.Mediator = CreateMediator();
-			
-			IRelayMediator relayerMediator = this.Mediator as IRelayMediator;
+		private void RegisterMediator()
+		{
+			if (Mediator == null)
+				Mediator = CreateMediator();
+
+			IRelayMediator relayerMediator = Mediator as IRelayMediator;
 			if (relayerMediator != null && relayerMediator.Relayer == null)
-				relayerMediator.AddRelayer(CreateMediator());			
+				relayerMediator.AddRelayer(CreateMediator());
 		}
 
 		private void DialogEvents_Show(object sender, ShowEventArgs e)
 		{
 			SetValue(IsOpenProperty.DependencyProperty, true);
-		}		
+		}
+
+		private void Button_Click(object sender, RoutedEventArgs e)
+		{
+			Button sourceButton = (Button)sender;
+
+			// TODO: Give the Button an ID
+
+			e.Handled = true;
+		}
     }
 }

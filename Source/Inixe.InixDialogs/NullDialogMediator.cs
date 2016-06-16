@@ -29,16 +29,20 @@ namespace Inixe.InixDialogs
 	using System.Linq;
 	using System.Windows.Input;
 
+	/// <summary>
+	/// Class NullDialogMediator.
+	/// </summary>
+	/// <remarks>Null Object Class. This class can be a default value for all interface dependencies of <see cref="IDialogMediator"/></remarks>
 	internal class NullDialogMediator : IDialogMediator
 	{
-		public void ShowDialog(ICommand nextActionCommand, object state, DialogSettingsBase settings)
+		public void ShowDialog<TState>(Action<TState, object> nextAction, Action<TState, object> otherAction, TState state, DialogSettingsBase settings)
 		{
 			// Do Nothing Here
 		}
 
-		public void ShowDialog(ICommand yesActionCommand, ICommand noActionCommand, object state, DialogSettingsBase settings)
+		public void ShowDialog<TState>(Action<TState, object> yesAction, Action<TState, object> noAction, Action<TState, object> otherAction, TState state, DialogSettingsBase settings)
 		{
 			// Do Nothing Here
-		}		
+		}
 	}
 }

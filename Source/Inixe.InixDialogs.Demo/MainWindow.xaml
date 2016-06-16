@@ -1,8 +1,9 @@
 ﻿<Window x:Class="Inixe.InixDialogs.Demo.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:local="clr-namespace:Inixe.InixDialogs.Demo.View"
         Title="MainWindow" Height="350" Width="525">
     <Grid>
-        
+        <local:MessageBoxDemoView1/>
     </Grid>
 </Window>

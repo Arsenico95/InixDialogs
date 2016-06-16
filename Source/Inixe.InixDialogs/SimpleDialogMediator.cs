@@ -22,24 +22,25 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
  */
 
-using System.Windows.Input;
+
 namespace Inixe.InixDialogs
 {
 	using System;
 	using System.Linq;
+	using System.Windows.Input;
 	using System.Collections.Generic;	
 
 	internal class SimpleDialogMediator : IDialogMediator, IShowDialogEvents
 	{
-		public void ShowDialog(ICommand nextActionCommand, object state, DialogSettingsBase settings)
+		public void ShowDialog<TState>(Action<TState, object> nextAction, Action<TState, object> otherAction, TState state, DialogSettingsBase settings)
 		{
 			OnShow(settings);
 		}
 
-		public void ShowDialog(ICommand yesActionCommand, ICommand noActionCommand, object state, DialogSettingsBase settings)
+		public void ShowDialog<TState>(Action<TState, object> yesAction, Action<TState, object> noAction, Action<TState, object> otherAction, TState state, DialogSettingsBase settings)
 		{
 			OnShow(settings);
-		}
+		}		
 
 		public event EventHandler<ShowEventArgs> Show;
 

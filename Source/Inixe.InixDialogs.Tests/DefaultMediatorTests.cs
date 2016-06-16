@@ -1,4 +1,4 @@
-/*
+﻿/*
 							MIT License
 
 Copyright (c) 2016 Ingemar Parra H.
@@ -22,17 +22,19 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
  */
 
-namespace Inixe.InixDialogs
+namespace Inixe.InixDialogs.Tests
 {
-	public class MessageBoxDialog : DialogBase
-	{
+	using System;
+	using Microsoft.VisualStudio.TestTools.UnitTesting;
+	using Inixe.InixDialogs;
 
-		/// <summary>
-		/// Initializes a new instance of the <see cref="MessageBoxDialog"/> class.
-		/// </summary>
-		public MessageBoxDialog()
+	[TestClass]
+	public class DefaultMediatorTests
+	{
+		[TestMethod]
+		public void AddRelayerExpected()
 		{
-			this.DefaultStyleKey = typeof(MessageBoxDialog);
+			DefaultDialogMediator mediator = new DefaultDialogMediator();			
 		}
 	}
 }

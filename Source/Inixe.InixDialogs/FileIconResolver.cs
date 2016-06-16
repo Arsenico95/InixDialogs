@@ -46,7 +46,7 @@ namespace Inixe.InixDialogs
 
 		private FileIconResolver()
 		{  
-			this._iconCache = new Dictionary<string,BitmapSource>();
+			_iconCache = new Dictionary<string,BitmapSource>();
 		}
 
 		public static FileIconResolver GetInstance()
@@ -64,11 +64,11 @@ namespace Inixe.InixDialogs
 			string extension = System.IO.Path.GetExtension(path);
 			BitmapSource retval;
 
-			if (!this._iconCache.TryGetValue(extension, out retval))
+			if (!_iconCache.TryGetValue(extension, out retval))
 			{
 				retval = FetchIcon(extension);
 				if (retval != null)
-					this._iconCache.Add(extension, retval);
+					_iconCache.Add(extension, retval);
 			}
 
 			return retval;

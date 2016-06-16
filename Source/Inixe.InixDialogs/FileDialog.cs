@@ -22,12 +22,12 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
  */
 
-using System.Windows;
-using System.IO;
 namespace Inixe.InixDialogs
 {
 	using System.Collections.ObjectModel;
 	using System.ComponentModel;
+	using System.IO;
+	using System.Windows;
 
 	/// <summary>
 	/// Class FileDialog.

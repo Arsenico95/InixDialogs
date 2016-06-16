@@ -25,17 +25,16 @@ SOFTWARE.
 namespace Inixe.InixDialogs
 {
 	using System;
-	using System.Collections.Generic;
-	using System.Linq;
-	using System.Text;
-	using System.Threading.Tasks;
 	using System.Windows.Input;
 
-
+	/// <summary>
+	/// Class DefaultDialogMediator.
+	/// </summary>
 	public class DefaultDialogMediator : IDialogMediator, IRelayMediator
 	{
 		private IDialogMediator _relayed;
-
+		private EventHandler<ShowEventArgs> _showEventHandler;
+ 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="DefaultMediator"/> class.
 		/// </summary>
@@ -43,9 +42,11 @@ namespace Inixe.InixDialogs
 		{
 			_relayed = new NullDialogMediator();
 		}
-		
-		internal event EventHandler<ShowEventArgs> Show;
 
+		/// <summary>
+		/// Gets the current relayer for the instance.
+		/// </summary>
+		/// <value>The relayer.</value>
 		IDialogMediator IRelayMediator.Relayer
 		{
 			get 
@@ -54,6 +55,10 @@ namespace Inixe.InixDialogs
 			}
 		}
 
+		/// <summary>
+		/// Adds a relayer mediator to the relay chain.
+		/// </summary>
+		/// <param name="mediator">The mediator.</param>
 		void IRelayMediator.AddRelayer(IDialogMediator mediator)
 		{
 			mediator.ThrowIfNull("mediator");
@@ -79,9 +84,9 @@ namespace Inixe.InixDialogs
 		/// <param name="otherActionCommand">If the dialog is canceled then this action is executed.</param>
 		/// <param name="state">Optional. When an actionCommand is executed the state parameter is handed over to the actionCommand</param>
 		/// <param name="settings">The dialog configuration settings <seealso cref="DialogSettingsBase" /></param>
-		public void ShowDialog(ICommand nextActionCommand, ICommand otherActionCommand, object state, DialogSettingsBase settings)
+		public void ShowDialog<TState>(Action<TState, object> nextAction, Action<TState, object> otherAction, TState state, DialogSettingsBase settings)
 		{
-			_relayed.ShowDialog(nextActionCommand, otherActionCommand, state, settings);
+			_relayed.ShowDialog<TState>(nextAction, otherAction, state, settings);
 		}
 
 		/// <summary>
@@ -92,9 +97,31 @@ namespace Inixe.InixDialogs
 		/// <param name="otherActionCommand">If the dialog is canceled then this action is executed.</param>
 		/// <param name="state">Optional. When an actionCommand is executed the state parameter is handed over to the actionCommand</param>
 		/// <param name="settings">The dialog configuration settings <seealso cref="DialogSettingsBase" /></param>
-		public void ShowDialog(ICommand yesActionCommand, ICommand noActionCommand, ICommand otherActionCommand, object state, DialogSettingsBase settings)
+		public void ShowDialog<TState>(Action<TState, object> yesAction, Action<TState, object> noAction, Action<TState, object> otherAction, TState state, DialogSettingsBase settings)
 		{
-			_relayed.ShowDialog(yesActionCommand, noActionCommand, otherActionCommand, state, settings);
+			_relayed.ShowDialog<TState>(yesAction, noAction, otherAction, state, settings);
+		}
+
+		/// <summary>
+		/// Occurs when the dialog is been shown.
+		/// </summary>
+		event EventHandler<ShowEventArgs> IShowDialogEvents.Show
+		{
+			add 
+			{ 
+				lock (_showEventHandler) 
+				{ 
+					_showEventHandler += value; 
+				} 
+			}
+			
+			remove 
+			{ 
+				lock (_showEventHandler) 
+				{ 
+					_showEventHandler += value; 
+				} 
+			}
 		}
 	}
 }

@@ -24,6 +24,7 @@ SOFTWARE.
 
 namespace Inixe.InixDialogs
 {
+	using System;
 	using System.Windows.Input;
 
 	/// <summary>
@@ -34,20 +35,20 @@ namespace Inixe.InixDialogs
 		/// <summary>
 		/// Shows a dialog on the current WPF page
 		/// </summary>
-		/// <param name="nextActionCommand">If the dialog is not canceled the nextActionCommand will be executed</param>
-		/// <param name="otherActionCommand">If the dialog is canceled then this action is executed.</param>
+		/// <param name="nextAction">If the dialog is not canceled the nextAction will be executed</param>
+		/// <param name="otherAction">If the dialog is canceled then this action is executed.</param>
 		/// <param name="state">Optional. When an actionCommand is executed the state parameter is handed over to the actionCommand</param>
 		/// <param name="settings">The dialog configuration settings <seealso cref="DialogSettingsBase" /></param>
-		void ShowDialog(ICommand nextActionCommand, ICommand otherActionCommand, object state, DialogSettingsBase settings);
+		void ShowDialog<TState>(Action<TState, object> nextAction, Action<TState, object> otherAction, TState state, DialogSettingsBase settings);
 
 		/// <summary>
 		/// Shows a yes/no dialog on the current WPF page
 		/// </summary>
-		/// <param name="yesActionCommand">If the yes option is selected this command is Executed.</param>
-		/// <param name="noActionCommand">If the yes option is selected this command is Executed.</param>
-		/// <param name="otherActionCommand">If the dialog is canceled then this action is executed.</param>
-		/// <param name="state">Optional. When an actionCommand is executed the state parameter is handed over to the actionCommand</param>
+		/// <param name="yesAction">If the yes option is selected this action is Executed.</param>
+		/// <param name="noAction">If the yes option is selected this action is Executed.</param>
+		/// <param name="otherAction">If the dialog is canceled then this action is executed.</param>
+		/// <param name="state">Optional. When an action is executed the state parameter is handed over to the action</param>
 		/// <param name="settings">The dialog configuration settings <seealso cref="DialogSettingsBase"/></param>		
-		void ShowDialog(ICommand yesActionCommand, ICommand noActionCommand, ICommand otherActionCommand, object state, DialogSettingsBase settings);
+		void ShowDialog<TState>(Action<TState, object> yesAction, Action<TState, object> noAction, Action<TState, object> otherAction, TState state, DialogSettingsBase settings);
 	}
 }

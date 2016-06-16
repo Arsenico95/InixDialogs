@@ -1,0 +1,29 @@
+﻿<UserControl x:Class="Inixe.InixDialogs.Demo.View.MessageBoxDemoView1"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:vm="clr-namespace:Inixe.InixDialogs.Demo.ViewModel"
+             xmlns:inixe="http://www.inixe.com.mx/InixDialogs/2016"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+    <UserControl.DataContext>
+        <vm:MessageBoxDemoViewModel1/>
+    </UserControl.DataContext>
+    <StackPanel>
+        <StackPanel.Style>
+            <Style TargetType="{x:Type StackPanel}">
+                <Style.Resources>
+                    <Style TargetType="{x:Type Control}">
+                        <Style.Setters>
+                            <Setter Property="Margin" Value="0,5,0,5"/>
+                        </Style.Setters>
+                    </Style>
+                </Style.Resources>
+            </Style>
+        </StackPanel.Style>
+        <TextBlock Text="Hit the button to show the Message box"/>
+        <Button Content="Show Message Box" Width="150"/>
+        <inixe:MessageBoxDialog Mediator="{Binding MessageBox}" />
+    </StackPanel>
+</UserControl>

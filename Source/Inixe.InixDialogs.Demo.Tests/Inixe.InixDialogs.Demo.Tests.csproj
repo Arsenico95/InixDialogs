@@ -53,6 +53,16 @@
     <Compile Include="UnitTest1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Inixe.InixDialogs.Demo\Inixe.InixDialogs.Demo.csproj">
+      <Project>{077ff5ea-7732-4e3a-8d23-8d9ef5c4970c}</Project>
+      <Name>Inixe.InixDialogs.Demo</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Inixe.InixDialogs\Inixe.InixDialogs.csproj">
+      <Project>{c0000733-1e4b-4eb5-9f1a-c5c2dd094ed8}</Project>
+      <Name>Inixe.InixDialogs</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
       <ItemGroup>
