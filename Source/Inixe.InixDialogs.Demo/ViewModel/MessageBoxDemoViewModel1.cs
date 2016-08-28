@@ -24,7 +24,7 @@ namespace Inixe.InixDialogs.Demo.ViewModel
 		public MessageBoxDemoViewModel1()
 		{
 			_showMessageBoxCommand = new OperationCommand(OnShowMessageBox);
-			System.Windows.SystemColors.
+			// System.Windows.SystemColors.
 		}
 
 		public event PropertyChangedEventHandler PropertyChanged;
