@@ -28,22 +28,17 @@ namespace Inixe.InixDialogs
 	using System.Collections.Generic;
 	using System.Linq;
 
-	/// <summary>
-	/// Interface IRelayMediator
-	/// </summary>	
-	internal interface IRelayMediator : IDialogMediator, IShowDialogEvents
+	internal interface IDialogController
 	{
+		/// <summary>
+		/// Executes the specified identifier.
+		/// </summary>
+		/// <param name="id">The identifier.</param>
+		void Execute(int id);
 
 		/// <summary>
-		/// Gets the current relayer for the instance.
+		/// Occurs when [show].
 		/// </summary>
-		/// <value>The relayer.</value>
-		IDialogMediator Relayer { get; }
-
-		/// <summary>
-		/// Adds a relayer mediator to the relay chain.
-		/// </summary>
-		/// <param name="mediator">The mediator.</param>
-		void AddRelayer(IDialogMediator mediator);		
+		event EventHandler<ShowEventArgs> Show;
 	}
 }

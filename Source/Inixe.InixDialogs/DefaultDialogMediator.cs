@@ -30,7 +30,7 @@ namespace Inixe.InixDialogs
 	/// <summary>
 	/// Class DefaultDialogMediator.
 	/// </summary>
-	public class DefaultDialogMediator : IDialogMediator, IRelayMediator
+	public class DefaultDialogMediator : IDialogMediatorController
 	{
 		private IDialogMediator _relayed;
 		private EventHandler<ShowEventArgs> _showEventHandler;
@@ -39,15 +39,24 @@ namespace Inixe.InixDialogs
 		/// Initializes a new instance of the <see cref="DefaultMediator"/> class.
 		/// </summary>
 		public DefaultDialogMediator()
+			:this(new NullDialogMediator())
 		{
-			_relayed = new NullDialogMediator();
+		}
+
+		/// <summary>
+		/// Initializes a new instance of the <see cref="DefaultDialogMediator"/> class.
+		/// </summary>
+		/// <param name="relayed"></param>
+		internal DefaultDialogMediator(IDialogMediator relayed)
+		{
+			_relayed = relayed;
 		}
 
 		/// <summary>
 		/// Gets the current relayer for the instance.
 		/// </summary>
 		/// <value>The relayer.</value>
-		IDialogMediator IRelayMediator.Relayer
+		IDialogMediator IDialogMediatorController.Mediator
 		{
 			get 
 			{ 
@@ -59,17 +68,17 @@ namespace Inixe.InixDialogs
 		/// Adds a relayer mediator to the relay chain.
 		/// </summary>
 		/// <param name="mediator">The mediator.</param>
-		void IRelayMediator.AddRelayer(IDialogMediator mediator)
+		void IDialogMediatorController.AddMediator(IDialogMediator mediator)
 		{
 			mediator.ThrowIfNull("mediator");
 
 			if (_relayed!=null)
 			{
-				IRelayMediator relayedMediator = _relayed as IRelayMediator;
+				IDialogMediatorController relayedMediator = _relayed as IDialogMediatorController;
 
 				if (relayedMediator != null)
 				{
-					relayedMediator.AddRelayer(mediator);
+					relayedMediator.AddMediator(mediator);
 					return;
 				}
 			}
@@ -105,7 +114,7 @@ namespace Inixe.InixDialogs
 		/// <summary>
 		/// Occurs when the dialog is been shown.
 		/// </summary>
-		event EventHandler<ShowEventArgs> IShowDialogEvents.Show
+		event EventHandler<ShowEventArgs> IDialogController.Show
 		{
 			add 
 			{ 
@@ -122,6 +131,11 @@ namespace Inixe.InixDialogs
 					_showEventHandler += value; 
 				} 
 			}
+		}
+
+		void IDialogController.Execute(int id)
+		{
+			throw new NotImplementedException();
 		}
 	}
 }

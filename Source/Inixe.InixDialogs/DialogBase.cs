@@ -38,31 +38,50 @@ namespace Inixe.InixDialogs
 	/// <summary>
 	/// Class DialogBase.
 	/// </summary>    
-	[TemplatePart(Name = "Popup_PART", Type = typeof(Popup))]
-	[TemplatePart(Name = "Button1_PART", Type = typeof(Button))]
-	[TemplatePart(Name = "Button2_PART", Type = typeof(Button))]
-	[TemplatePart(Name = "Button3_PART", Type = typeof(Button))]
-	public abstract class DialogBase : Popup
+	[TemplatePart(Name = "PART_Popup", Type = typeof(Popup))]
+	[TemplatePart(Name = "PART_Button1", Type = typeof(Button))]
+	[TemplatePart(Name = "PART_Button2", Type = typeof(Button))]
+	[TemplatePart(Name = "PART_Button3", Type = typeof(Button))]
+	public abstract class DialogBase : Control
     {
-		private Popup _popUp;
-		private Button _button1;
-        private Button _button2;
-        private Button _button3;
+		/// <summary>
+		/// This Property controls the internal popup behavior
+		/// </summary>
+		public static readonly DependencyProperty IsOpenProperty;
 
-		internal static readonly DependencyPropertyKey IsOpenProperty;
-				
+		/// <summary>
+		/// Dialog title property
+		/// </summary>
+		public static readonly DependencyPropertyKey DialogTitleProperty;
+
+		/// <summary>
+		/// This Property controls the internal popup behavior
+		/// </summary>
+		private static readonly DependencyPropertyKey IsOpenPropertyKey;
+
 		/// <summary>
 		/// Mediator property.
 		/// </summary>
 		/// <remarks>The Mediator acts like a bond between the WPF pages and the control</remarks>
 		public static readonly DependencyProperty MediatorProperty;
 
+		private Popup _popUp;
+		private Button _button1;
+        private Button _button2;
+        private Button _button3;
+
 		static DialogBase()
 		{
+			PropertyMetadata dialogTitleMeta = new PropertyMetadata(string.Empty, new PropertyChangedCallback(OnDialogTitleChanged));
+			DialogTitleProperty = DependencyProperty.RegisterReadOnly("DialogTitle", typeof(string), typeof(DialogBase), dialogTitleMeta);
+
 			PropertyMetadata isOpenMeta = new PropertyMetadata(false, new PropertyChangedCallback(OnIsOpenChanged));
-			IsOpenProperty = DependencyProperty.RegisterReadOnly("IsOpen", typeof(bool), typeof(DialogBase), isOpenMeta);
+			IsOpenPropertyKey = DependencyProperty.RegisterReadOnly("IsOpen", typeof(bool), typeof(DialogBase), isOpenMeta);
+
+			IsOpenProperty = IsOpenPropertyKey.DependencyProperty;
 
 			var nullMediator = new NullDialogMediator();
+
 			PropertyMetadata mediatorMetadata = new PropertyMetadata(nullMediator, new PropertyChangedCallback(OnMediatorChanged));
 			MediatorProperty = DependencyProperty.Register("Mediator", typeof(IDialogMediator), typeof(DialogBase), mediatorMetadata);
 		}
@@ -76,6 +95,53 @@ namespace Inixe.InixDialogs
 			_button1 = null;
 			_button2 = null;
 			_button3 = null;
+		}
+
+		public Popup PopUp
+		{
+			get
+			{
+				return _popUp;
+			}
+		}
+
+		public IDialogMediator Mediator
+		{
+			get
+			{
+				return (IDialogMediator)GetValue(MediatorProperty);
+			}
+
+			set
+			{
+				SetValue(MediatorProperty, value);
+			}
+		}
+
+		internal bool IsOpen
+		{
+			get
+			{
+				return (bool)GetValue(IsOpenPropertyKey.DependencyProperty);
+			}
+
+			private set
+			{
+				SetValue(IsOpenPropertyKey, value);
+			}
+		}
+
+		public string DialogTitle
+		{
+			get
+			{
+				return (string)GetValue(DialogTitleProperty.DependencyProperty);
+			}
+
+			private set
+			{
+				SetValue(DialogTitleProperty, value);
+			}
 		}
 
 		protected Button Button1
@@ -101,34 +167,7 @@ namespace Inixe.InixDialogs
 				return _button3;
 			}
 		}
-
-		public Popup PopUp
-		{
-			get
-			{
-				return _popUp;
-			}
-		}
-		internal bool IsOpen
-		{		
-			get
-			{
-				return (bool)GetValue(IsOpenProperty.DependencyProperty);
-			}			
-		}
-
-		public IDialogMediator Mediator
-		{		
-			get
-			{
-				return (IDialogMediator)GetValue(MediatorProperty);
-			}
-			set
-			{
-				SetValue(MediatorProperty, value);
-			}
-		}
-
+		
 		protected override void OnInitialized(EventArgs e)
 		{
 			base.OnInitialized(e);
@@ -141,10 +180,19 @@ namespace Inixe.InixDialogs
 		{
 			base.OnApplyTemplate();
 
-			_popUp = (Popup) GetTemplateChild("Popup_PART");
-			_button1 = (Button)GetTemplateChild("Button1_PART");
-			_button2 = (Button)GetTemplateChild("Button2_PART");
-			_button3 = (Button)GetTemplateChild("Button3_PART");
+			if (this.Template == null)
+				return;
+
+			_popUp = (Popup)GetTemplateChild("PART_Popup");
+
+			// If we use CommandBindings we're handing over to inheritors or style overriders the responsability of 
+			// implementing the actual command calls in their templates(Or attach'em in the XAML). 
+			// I Know that this way there isn't any warranty either, 'cause inheritors can detach the event handlers from the event handler list,
+			// But that means that they know what they want and thats a way of getting it. 
+			// In the other hand they may forget or may take us out of the way by mistake
+			_button1 = (Button)GetTemplateChild("PART_Button1");
+			_button2 = (Button)GetTemplateChild("PART_Button2");
+			_button3 = (Button)GetTemplateChild("PART_Button3");
 
 			_button1.Click += Button_Click;
 			_button2.Click += Button_Click;
@@ -158,30 +206,44 @@ namespace Inixe.InixDialogs
 
 		protected virtual void OnMediatorChanged(IDialogMediator oldValue, IDialogMediator newValue)
 		{
-			IShowDialogEvents oldEvents = oldValue as IShowDialogEvents;
-			IShowDialogEvents newEvents = newValue as IShowDialogEvents;
+			IDialogController oldEvents = oldValue as IDialogController;
+			IDialogController newEvents = newValue as IDialogController;
 
 			if (oldEvents != null)
 				oldEvents.Show -= DialogEvents_Show;
 
-			if (newEvents != null)
-				newEvents.Show += DialogEvents_Show;
-			else			
+			if (newEvents == null)
 			{
 				RegisterMediator();
-				var res = GetBindingExpression(MediatorProperty);
-				res.UpdateSource();
+				BindingExpression res = GetBindingExpression(MediatorProperty);
+
+				if (res != null && (res.ParentBinding.Mode == BindingMode.TwoWay || res.ParentBinding.Mode == BindingMode.OneWayToSource))
+					res.UpdateSource();
 			}
+			else
+				newEvents.Show += DialogEvents_Show;
 		}
 
 		protected virtual IDialogMediator CreateMediator()
 		{
 			IDialogMediator retval = new SimpleDialogMediator();
 
-			IShowDialogEvents dialogEvents = (IShowDialogEvents)retval;
+			IDialogController dialogEvents = (IDialogController)retval;
 			dialogEvents.Show += DialogEvents_Show;
 
 			return retval;
+		}
+
+		protected virtual void OnDialogTitleChanged(string oldValue, string newValue)
+		{
+			// Let inheritors use this
+		}
+
+		private static void OnDialogTitleChanged(DependencyObject o, DependencyPropertyChangedEventArgs e)
+		{
+			DialogBase dialogBase = o as DialogBase;
+			if (dialogBase != null)
+				dialogBase.OnDialogTitleChanged((string)e.OldValue, (string)e.NewValue);
 		}
 
 		private static void OnMediatorChanged(DependencyObject o, DependencyPropertyChangedEventArgs e)
@@ -203,21 +265,26 @@ namespace Inixe.InixDialogs
 			if (Mediator == null)
 				Mediator = CreateMediator();
 
-			IRelayMediator relayerMediator = Mediator as IRelayMediator;
-			if (relayerMediator != null && relayerMediator.Relayer == null)
-				relayerMediator.AddRelayer(CreateMediator());
+			IDialogMediatorController relayerMediator = Mediator as IDialogMediatorController;
+			if (relayerMediator != null && relayerMediator.Mediator == null)
+				relayerMediator.AddMediator(CreateMediator());
 		}
 
 		private void DialogEvents_Show(object sender, ShowEventArgs e)
 		{
-			SetValue(IsOpenProperty.DependencyProperty, true);
+			this.DialogTitle = e.Settings.HeaderText;
+			this.IsOpen = true;
+
+			//TODO: Setup before popup show 
 		}
 
 		private void Button_Click(object sender, RoutedEventArgs e)
 		{
 			Button sourceButton = (Button)sender;
-
-			// TODO: Give the Button an ID
+			
+			int id =(int)char.GetNumericValue(sourceButton.Name[sourceButton.Name.Length - 1]);
+			
+			// TODO: Execute HostActions
 
 			e.Handled = true;
 		}

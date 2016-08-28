@@ -30,7 +30,7 @@ namespace Inixe.InixDialogs
 	using System.Windows.Input;
 	using System.Collections.Generic;	
 
-	internal class SimpleDialogMediator : IDialogMediator, IShowDialogEvents
+	internal class SimpleDialogMediator : IDialogMediator, IDialogController
 	{
 		public void ShowDialog<TState>(Action<TState, object> nextAction, Action<TState, object> otherAction, TState state, DialogSettingsBase settings)
 		{
@@ -53,6 +53,11 @@ namespace Inixe.InixDialogs
 
 			if (handler != null)
 				handler(this, args);
+		}
+
+		public void Execute(int id)
+		{
+			throw new NotImplementedException();
 		}
 	}
 }

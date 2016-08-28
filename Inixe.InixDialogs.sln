@@ -24,8 +24,8 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{C0000733-1E4B-4EB5-9F1A-C5C2DD094ED8}.Debug|Any CPU.ActiveCfg = Package Publish|Any CPU
-		{C0000733-1E4B-4EB5-9F1A-C5C2DD094ED8}.Debug|Any CPU.Build.0 = Package Publish|Any CPU
+		{C0000733-1E4B-4EB5-9F1A-C5C2DD094ED8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C0000733-1E4B-4EB5-9F1A-C5C2DD094ED8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C0000733-1E4B-4EB5-9F1A-C5C2DD094ED8}.Package Publish|Any CPU.ActiveCfg = Release|Any CPU
 		{C0000733-1E4B-4EB5-9F1A-C5C2DD094ED8}.Package Publish|Any CPU.Build.0 = Release|Any CPU
 		{C0000733-1E4B-4EB5-9F1A-C5C2DD094ED8}.Release|Any CPU.ActiveCfg = Release|Any CPU

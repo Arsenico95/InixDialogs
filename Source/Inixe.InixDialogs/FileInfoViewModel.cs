@@ -96,6 +96,14 @@ namespace Inixe.InixDialogs
 			}
 		}
 
+		public string Path
+		{
+			get
+			{
+				return _path;
+			}
+		}
+
 		public long Size
 		{
 			get

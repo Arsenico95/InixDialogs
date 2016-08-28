@@ -36,13 +36,13 @@ namespace Inixe.InixDialogs
 		/// Initializes a new instance of the <see cref="ShowEventArgs"/> class.
 		/// </summary>
 		/// <param name="settings"></param>
-		public ShowEventArgs(DialogSettingsBase settings)
+		internal ShowEventArgs(DialogSettingsBase settings)
 		{
 			settings.ThrowIfNull("settings");
 			this.settings = settings;
 		}
 
-		DialogSettingsBase Settings 
+		internal DialogSettingsBase Settings 
 		{ 
 			get
 			{

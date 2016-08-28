@@ -58,6 +58,9 @@
     <Compile Include="View\MessageBoxDemoView1.xaml.cs">
       <DependentUpon>MessageBoxDemoView1.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\Scratchpad.xaml.cs">
+      <DependentUpon>Scratchpad.xaml</DependentUpon>
+    </Compile>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -71,6 +74,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="View\MessageBoxDemoView1.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Scratchpad.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

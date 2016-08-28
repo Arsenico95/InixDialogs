@@ -22,9 +22,10 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
  */
 
-using System.Windows.Media;
 namespace Inixe.InixDialogs
 {
+	using System.Windows.Media;
+
 	/// <summary>
 	/// Enum MessageBoxButtons
 	/// </summary>
@@ -78,6 +79,6 @@ namespace Inixe.InixDialogs
 		public ImageSource IconSource { get; set; }
 		public bool WrapText { get; set; }
 		public MessageBoxIcon Icon { get; set; }
-		public string MessageText { get; set; }		
+		public string MessageText { get; set; }	
 	}
 }

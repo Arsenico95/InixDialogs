@@ -23,6 +23,7 @@ SOFTWARE.
  */
 
 using System.Reflection;
+using System.Windows;
 using System.Windows.Markup;
 using System.Runtime.InteropServices;
 using System.Runtime.CompilerServices;
@@ -40,6 +41,7 @@ using System.Runtime.CompilerServices;
 [assembly: AssemblyCulture("")]
 
 [assembly: XmlnsDefinition("http://www.inixe.com.mx/InixDialogs/2016", "Inixe.InixDialogs")]
+[assembly: ThemeInfo(ResourceDictionaryLocation.None, ResourceDictionaryLocation.SourceAssembly)]
 [assembly: InternalsVisibleTo("Inixe.InixDialogs.Tests")]
 
 // Setting ComVisible to false makes the types in this assembly not visible 

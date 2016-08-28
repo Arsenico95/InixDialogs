@@ -9,6 +9,7 @@ namespace Inixe.InixDialogs.Demo.ViewModel
 	using System.Text;
 	using System.Threading.Tasks;
 	using System.Windows.Input;
+	using System.Windows;
 	
 	internal class MessageBoxDemoViewModel1 : INotifyPropertyChanged
 	{
@@ -16,13 +17,14 @@ namespace Inixe.InixDialogs.Demo.ViewModel
 
 		private IDialogMediator _messageBox;
 
+
 		/// <summary>
 		/// Initializes a new instance of the <see cref="MessageBoxDemoViewModel1"/> class.
 		/// </summary>
 		public MessageBoxDemoViewModel1()
 		{
 			_showMessageBoxCommand = new OperationCommand(OnShowMessageBox);
-
+			System.Windows.SystemColors.
 		}
 
 		public event PropertyChangedEventHandler PropertyChanged;

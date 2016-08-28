@@ -24,9 +24,12 @@ SOFTWARE.
 
 namespace Inixe.InixDialogs
 {
+	/// <summary>
+	/// Class MessageBoxDialog.
+	/// </summary>
+	/// <seealso cref="Inixe.InixDialogs.DialogBase" />
 	public class MessageBoxDialog : DialogBase
 	{
-
 		/// <summary>
 		/// Initializes a new instance of the <see cref="MessageBoxDialog"/> class.
 		/// </summary>
@@ -34,5 +37,7 @@ namespace Inixe.InixDialogs
 		{
 			this.DefaultStyleKey = typeof(MessageBoxDialog);
 		}
+
+
 	}
 }

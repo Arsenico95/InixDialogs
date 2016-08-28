@@ -58,7 +58,7 @@ namespace Inixe.InixDialogs
 
 		private static void ThrowIfNullCore(object obj, string argumentName)
 		{
-			ThrowIfNullCore(obj, argumentName);
+			ThrowIfNullCore(obj, argumentName, string.Empty);
 		}
 
 		private static void ThrowIfNullCore(object obj, string argumentName, string message)

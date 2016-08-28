@@ -8,5 +8,6 @@ namespace Inixe.InixDialogs
 {
 	public static class MessageBoxHelper 
 	{
+		// public static void
 	}
 }
