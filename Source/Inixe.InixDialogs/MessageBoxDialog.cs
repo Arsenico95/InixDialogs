@@ -30,8 +30,11 @@ namespace Inixe.InixDialogs
 	/// <seealso cref="Inixe.InixDialogs.DialogBase" />
 	public class MessageBoxDialog : DialogBase
 	{
+		//BindingOperations.SetBinding(yourContentControlInstance, ContentControl.ContentProperty, new Binding());
+
+
 		/// <summary>
-		/// Initializes a new instance of the <see cref="MessageBoxDialog"/> class.
+		/// Initializes a new instance of the <see cref="MessageBoxDialog" /> class.
 		/// </summary>
 		public MessageBoxDialog()
 		{

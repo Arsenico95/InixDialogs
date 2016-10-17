@@ -74,7 +74,6 @@ namespace Inixe.InixDialogs.Demo.ViewModel
 			dialogSettings.MessageText = "Are you Sure?";
 
 			_messageBox.ShowDialog<object>((p, s) => { }, (p, s) => { }, this, dialogSettings);
-
 		}
 	}
 }
