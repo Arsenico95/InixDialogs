@@ -31,10 +31,11 @@ namespace Inixe.InixDialogs
 	using System.Collections.Generic;	
 
 	internal class SimpleDialogMediator : IDialogMediator, IDialogController
-	{
+	{		
 		public void ShowDialog<TState>(Action<TState, object> nextAction, Action<TState, object> otherAction, TState state, DialogSettingsBase settings)
 		{
 			OnShow(settings);
+
 		}
 
 		public void ShowDialog<TState>(Action<TState, object> yesAction, Action<TState, object> noAction, Action<TState, object> otherAction, TState state, DialogSettingsBase settings)
@@ -57,7 +58,8 @@ namespace Inixe.InixDialogs
 
 		public void Execute(int id)
 		{
-			throw new NotImplementedException();
+			// TODO: Select Next Action
+
 		}
 	}
 }

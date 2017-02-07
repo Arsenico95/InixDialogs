@@ -87,5 +87,10 @@ namespace Inixe.InixDialogs
 		{
 			get { return _files; }
 		}
+
+		protected override void SetupDialog(DialogSettingsBase settings)
+		{
+			throw new System.NotImplementedException();
+		}
 	}
 }

@@ -22,7 +22,7 @@ namespace Inixe.InixDialogs.Properties {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class Resources {
+    public class Resources {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
@@ -36,7 +36,7 @@ namespace Inixe.InixDialogs.Properties {
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager {
+        public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
                     global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Inixe.InixDialogs.Properties.Resources", typeof(Resources).Assembly);
@@ -51,7 +51,7 @@ namespace Inixe.InixDialogs.Properties {
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture {
+        public static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -63,7 +63,7 @@ namespace Inixe.InixDialogs.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Cancel.
         /// </summary>
-        internal static string CancelButtonText {
+        public static string CancelButtonText {
             get {
                 return ResourceManager.GetString("CancelButtonText", resourceCulture);
             }
@@ -72,7 +72,7 @@ namespace Inixe.InixDialogs.Properties {
         /// <summary>
         ///   Looks up a localized string similar to No.
         /// </summary>
-        internal static string NoButtonText {
+        public static string NoButtonText {
             get {
                 return ResourceManager.GetString("NoButtonText", resourceCulture);
             }
@@ -81,7 +81,7 @@ namespace Inixe.InixDialogs.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Ok.
         /// </summary>
-        internal static string OkButtonText {
+        public static string OkButtonText {
             get {
                 return ResourceManager.GetString("OkButtonText", resourceCulture);
             }
@@ -90,7 +90,7 @@ namespace Inixe.InixDialogs.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Open.
         /// </summary>
-        internal static string OpenButtonText {
+        public static string OpenButtonText {
             get {
                 return ResourceManager.GetString("OpenButtonText", resourceCulture);
             }
@@ -99,7 +99,7 @@ namespace Inixe.InixDialogs.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Save.
         /// </summary>
-        internal static string SaveButtonText {
+        public static string SaveButtonText {
             get {
                 return ResourceManager.GetString("SaveButtonText", resourceCulture);
             }
@@ -108,7 +108,7 @@ namespace Inixe.InixDialogs.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Select.
         /// </summary>
-        internal static string SelecButtonText {
+        public static string SelecButtonText {
             get {
                 return ResourceManager.GetString("SelecButtonText", resourceCulture);
             }
@@ -117,7 +117,7 @@ namespace Inixe.InixDialogs.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Yes.
         /// </summary>
-        internal static string YesButtonText {
+        public static string YesButtonText {
             get {
                 return ResourceManager.GetString("YesButtonText", resourceCulture);
             }

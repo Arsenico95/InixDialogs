@@ -22,7 +22,7 @@
                 </Style.Resources>
             </Style>
         </StackPanel.Style>
-        <TextBlock Text="Hit the button to show the Message box"/>
+        <TextBlock TextAlignment="Center" Text="Hit the button to show the Message box"/>
         <Button Content="Show Message Box" Width="150" Command="{Binding ShowMessageBoxCommand}"/>
         <inixe:MessageBoxDialog Mediator="{Binding MessageBox, Mode=TwoWay}" />
     </StackPanel>

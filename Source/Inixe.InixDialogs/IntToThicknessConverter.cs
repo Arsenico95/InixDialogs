@@ -1,4 +1,4 @@
-/*
+﻿/*
 							MIT License
 
 Copyright (c) 2016 Ingemar Parra H.
@@ -24,11 +24,40 @@ SOFTWARE.
 
 namespace Inixe.InixDialogs
 {
-	public class DirectoryDialog : DialogBase
+	using System;
+	using System.Collections.Generic;
+	using System.Linq;
+	using System.Text;
+	using System.Threading.Tasks;
+	using System.Windows;
+	using System.Windows.Data;
+
+	internal class IntToThicknessConverter : IValueConverter
 	{
-		protected override void SetupDialog(DialogSettingsBase settings)
+		public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
 		{
-			throw new System.NotImplementedException();
+			Thickness retval;
+
+			if (typeof(Thickness).Equals(targetType) && parameter is int)
+			{
+				int iVal = (int)value;
+				int iParam = (int)parameter;
+
+				retval = new Thickness();
+				retval.Top = iVal * iParam;
+				retval.Left = iVal * iParam;
+				retval.Right = iVal * iParam;
+				retval.Bottom = iVal * iParam;
+
+				return retval;
+			}
+
+			return DependencyProperty.UnsetValue;
+		}
+
+		public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+		{
+			return DependencyProperty.UnsetValue;
 		}
 	}
 }

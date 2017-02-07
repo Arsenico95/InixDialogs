@@ -7,23 +7,64 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
-        <Border>
+        <Border BorderBrush="{x:Static SystemColors.WindowFrameBrush}" BorderThickness="{x:Static SystemParameters.BorderWidth}">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition />
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="{x:Static SystemParameters.CaptionHeight}"/>
+                    <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
-                <Grid Grid.Column="0" Grid.Row="0" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Background="{x:Static SystemColors.ActiveCaptionBrush}">
-                    <TextBlock Text="jojo"/>
+                <Grid.Resources>
+                    <Style TargetType="{x:Type Grid}">
+                        <Style.Setters>
+                            <Setter Property="HorizontalAlignment" Value="Stretch"/>
+                            <Setter Property="VerticalAlignment" Value="Stretch"/>
+                        </Style.Setters>
+                    </Style>
+                </Grid.Resources>
+                <Grid Grid.Column="0" Grid.Row="0" Background="{x:Static SystemColors.GradientActiveCaptionBrush}">
+                    <Grid.Resources>
+                        <Style TargetType="{x:Type TextBlock}">
+                            <Style.Setters>
+                                <Setter Property="Margin" Value="5,0,5,0"/>
+                                <Setter Property="FontFamily" Value="{x:Static SystemFonts.CaptionFontFamily}"/>
+                                <Setter Property="FontSize" Value="{x:Static SystemFonts.CaptionFontSize}"/>
+                                <Setter Property="FontWeight" Value="{x:Static SystemFonts.CaptionFontWeight}"/>
+                                <Setter Property="VerticalAlignment" Value="Center"/>
+                            </Style.Setters>
+                        </Style>
+                    </Grid.Resources>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Column="0" Grid.ColumnSpan="2" Text="jojo" Height="{x:Static SystemParameters.CaptionHeight}"/>
+                    <Image Grid.Column="2" Width="{x:Static SystemParameters.CaptionWidth}" Height="{x:Static SystemParameters.CaptionHeight}"/>
                 </Grid>
-                <Grid Grid.Column="0" Grid.Row="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Background="{x:Static SystemColors.ControlBrush}">
-                    <TextBlock Text="jojo"/>
+                <Grid Grid.Column="0" Grid.Row="1" Background="{x:Static SystemColors.WindowBrush}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.Resources>
+                        <Style TargetType="{x:Type TextBlock}">
+                            <Style.Setters>
+                                <Setter Property="Margin" Value="5,5,5,5"/>
+                                <Setter Property="FontFamily" Value="{x:Static SystemFonts.MessageFontFamily}"/>
+                                <Setter Property="FontSize" Value="{x:Static SystemFonts.MessageFontSize}"/>
+                                <Setter Property="FontWeight" Value="{x:Static SystemFonts.MessageFontWeight}"/>
+                                <Setter Property="VerticalAlignment" Value="Center"/>
+                            </Style.Setters>
+                        </Style>
+                    </Grid.Resources>
+                    <Image Grid.Column="0" Width="32" Height="32" Margin="5,5,5,5"/>
+                    <TextBlock Grid.Column="1" Text="jojo"/>
                 </Grid>
-                <Grid Grid.Column="0" Grid.Row="2">
+                <Grid Grid.Column="0" Grid.Row="2" Background="{x:Static SystemColors.AppWorkspaceBrush}">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="*"/>
@@ -32,8 +73,15 @@
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
-                    
-                    <Button x:Name="PART_Button1" Grid.Row="0" Grid.Column="0"></Button>
+                    <Grid.Resources>
+                        <Style TargetType="{x:Type Button}">
+                            <Style.Setters>
+                                <Setter Property="Margin" Value="5,5,5,5"/>
+                                <Setter Property="VerticalAlignment" Value="Bottom" />
+                            </Style.Setters>
+                        </Style>
+                    </Grid.Resources>
+                    <Button x:Name="PART_Button1" Grid.Row="0" Grid.Column="0">N</Button>
                     <Button x:Name="PART_Button2" Grid.Row="0" Grid.Column="1"></Button>
                     <Button x:Name="PART_Button3" Grid.Row="0" Grid.Column="2"></Button>
                 </Grid>                

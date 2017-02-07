@@ -176,11 +176,11 @@ namespace Inixe.InixDialogs
 			RegisterMediator();		
 		}
 
-		public sealed override void OnApplyTemplate()
+		public override void OnApplyTemplate()
 		{
 			base.OnApplyTemplate();
 
-			if (this.Template == null)
+			if (Template == null)
 				return;
 
 			_popUp = (Popup)GetTemplateChild("PART_Popup");
@@ -234,6 +234,13 @@ namespace Inixe.InixDialogs
 			return retval;
 		}
 
+		/// <summary>
+		/// Setups the dialog.
+		/// </summary>
+		/// <param name="settings">The settings.</param>
+		/// <remarks>Tells the inheritors to setup their properties in order to display the dialog.</remarks>
+		protected abstract void SetupDialog(DialogSettingsBase settings);
+
 		protected virtual void OnDialogTitleChanged(string oldValue, string newValue)
 		{
 			// Let inheritors use this
@@ -272,10 +279,10 @@ namespace Inixe.InixDialogs
 
 		private void DialogEvents_Show(object sender, ShowEventArgs e)
 		{
-			this.DialogTitle = e.Settings.HeaderText;
-			this.IsOpen = true;
+			DialogTitle = e.Settings.HeaderText;
+			IsOpen = true;
 
-			//TODO: Setup before popup show 
+			SetupDialog(e.Settings); 
 		}
 
 		private void Button_Click(object sender, RoutedEventArgs e)
@@ -285,8 +292,11 @@ namespace Inixe.InixDialogs
 			int id =(int)char.GetNumericValue(sourceButton.Name[sourceButton.Name.Length - 1]);
 			
 			// TODO: Execute HostActions
+			IDialogController controller = (IDialogController)Mediator;
+			controller.Execute(id);
 
 			e.Handled = true;
+			IsOpen = false;
 		}
     }
 }

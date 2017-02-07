@@ -10,11 +10,11 @@ namespace Inixe.InixDialogs.Demo.ViewModel
 	using System.Threading.Tasks;
 	using System.Windows.Input;
 	using System.Windows;
-	
+
 	internal class MessageBoxDemoViewModel1 : INotifyPropertyChanged
 	{
 		private ICommand _showMessageBoxCommand;
-
+		private string _result;
 		private IDialogMediator _messageBox;
 
 
@@ -28,6 +28,23 @@ namespace Inixe.InixDialogs.Demo.ViewModel
 		}
 
 		public event PropertyChangedEventHandler PropertyChanged;
+
+		public string Result
+		{
+			get
+			{
+				return _result;
+			}
+
+			set
+			{
+				if (_result != value)
+				{
+					_result = value;
+					OnPropertyChanged("Result");
+				}
+			}
+		}
 
 		public ICommand ShowMessageBoxCommand
 		{
@@ -45,8 +62,8 @@ namespace Inixe.InixDialogs.Demo.ViewModel
 			}
 
 			set
-			{  
-				if (_messageBox!=value)
+			{
+				if (_messageBox != value)
 				{
 					_messageBox = value;
 					OnPropertyChanged("MessageBox");
@@ -70,10 +87,11 @@ namespace Inixe.InixDialogs.Demo.ViewModel
 		{
 			var dialogSettings = new MessageBoxDialogSettings();
 			dialogSettings.HeaderText = "Demo";
+			dialogSettings.Buttons = MessageBoxButtons.OkCancel;
 			dialogSettings.Icon = MessageBoxIcon.Asterix;
-			dialogSettings.MessageText = "Are you Sure?";
+			dialogSettings.MessageContent = "Are you Sure?";
 
-			_messageBox.ShowDialog<object>((p, s) => { }, (p, s) => { }, this, dialogSettings);
+			_messageBox.ShowDialog<object>((p, s) => Result = "You wanted this!!", (p, s) => Result = "Ok. So then you back off", this, dialogSettings);
 		}
 	}
 }

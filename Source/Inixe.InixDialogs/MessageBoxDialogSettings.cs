@@ -46,21 +46,21 @@ namespace Inixe.InixDialogs
 		/// <summary>
 		/// An asterix icon will be displayed
 		/// </summary>
-		Asterix,
+		Asterix = 32516,
 
 		/// <summary>
 		/// An error icon will be displayed
 		/// </summary>
-		Error,
+		Error = 32513,
 		
-		Exclamation,
-		Hand,
-		Information,
-		None,
-		Question,
-		Stop,
-		Warning,
-		Custom
+		Exclamation = 32515,
+		Hand = Error,
+		Information = Asterix,
+		None = 0,
+		Question = 32515,
+		Stop = Error,
+		Warning = Exclamation,
+		Custom = 1
 	}
 
 	public enum DialogResult
@@ -77,8 +77,8 @@ namespace Inixe.InixDialogs
 	public sealed class MessageBoxDialogSettings : DialogSettingsBase
 	{
 		public ImageSource IconSource { get; set; }
-		public bool WrapText { get; set; }
 		public MessageBoxIcon Icon { get; set; }
-		public string MessageText { get; set; }	
+		public MessageBoxButtons Buttons { get; set; }
+		public object MessageContent { get; set; }
 	}
 }
