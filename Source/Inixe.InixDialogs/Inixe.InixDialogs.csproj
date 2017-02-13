@@ -52,6 +52,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CallbackSet.cs" />
     <Compile Include="DefaultDialogMediator.cs" />
     <Compile Include="DialogBase.cs" />
     <Compile Include="DialogSettingsBase.cs" />
@@ -82,6 +83,7 @@
     </Compile>
     <Compile Include="ShowEventArgs.cs" />
     <Compile Include="SimpleDialogMediator.cs" />
+    <Compile Include="SimpleTestMediator.cs" />
     <Compile Include="Utils.cs" />
   </ItemGroup>
   <ItemGroup>

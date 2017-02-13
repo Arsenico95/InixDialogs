@@ -43,20 +43,23 @@ namespace Inixe.InixDialogs
 	[TemplatePart(Name = "PART_Button2", Type = typeof(Button))]
 	[TemplatePart(Name = "PART_Button3", Type = typeof(Button))]
 	public abstract class DialogBase : Control
-    {
+    {		
 		/// <summary>
 		/// This Property controls the internal popup behavior
 		/// </summary>
+		/// <remarks>None</remarks>
 		public static readonly DependencyProperty IsOpenProperty;
 
 		/// <summary>
 		/// Dialog title property
 		/// </summary>
+		/// <remarks>None</remarks>
 		public static readonly DependencyPropertyKey DialogTitleProperty;
 
 		/// <summary>
 		/// This Property controls the internal popup behavior
 		/// </summary>
+		/// <remarks>None</remarks>
 		private static readonly DependencyPropertyKey IsOpenPropertyKey;
 
 		/// <summary>
@@ -167,7 +170,7 @@ namespace Inixe.InixDialogs
 				return _button3;
 			}
 		}
-		
+
 		protected override void OnInitialized(EventArgs e)
 		{
 			base.OnInitialized(e);
@@ -197,6 +200,11 @@ namespace Inixe.InixDialogs
 			_button1.Click += Button_Click;
 			_button2.Click += Button_Click;
 			_button3.Click += Button_Click;
+		}
+
+		protected virtual void OnSettingsChanged(DialogSettingsBase oldValue, DialogSettingsBase newValue)
+		{
+			// Let inheritors use this
 		}
 
 		protected virtual void OnIsOpenChanged(bool oldValue, bool newValue)
@@ -241,9 +249,18 @@ namespace Inixe.InixDialogs
 		/// <remarks>Tells the inheritors to setup their properties in order to display the dialog.</remarks>
 		protected abstract void SetupDialog(DialogSettingsBase settings);
 
+		protected abstract object GetDialogResult(DialogResult identifier);
+
 		protected virtual void OnDialogTitleChanged(string oldValue, string newValue)
 		{
 			// Let inheritors use this
+		}
+
+		private static void OnSettingsChanged(DependencyObject o, DependencyPropertyChangedEventArgs e)
+		{
+			DialogBase dialogBase = o as DialogBase;
+			if (dialogBase != null)
+				dialogBase.OnSettingsChanged((DialogSettingsBase)e.OldValue, (DialogSettingsBase)e.NewValue);
 		}
 
 		private static void OnDialogTitleChanged(DependencyObject o, DependencyPropertyChangedEventArgs e)
@@ -280,9 +297,10 @@ namespace Inixe.InixDialogs
 		private void DialogEvents_Show(object sender, ShowEventArgs e)
 		{
 			DialogTitle = e.Settings.HeaderText;
-			IsOpen = true;
 
-			SetupDialog(e.Settings); 
+			SetupDialog(e.Settings);
+
+			IsOpen = true;
 		}
 
 		private void Button_Click(object sender, RoutedEventArgs e)
@@ -290,10 +308,13 @@ namespace Inixe.InixDialogs
 			Button sourceButton = (Button)sender;
 			
 			int id =(int)char.GetNumericValue(sourceButton.Name[sourceButton.Name.Length - 1]);
-			
-			// TODO: Execute HostActions
+			DialogResult resultType = (DialogResult)id;
+
 			IDialogController controller = (IDialogController)Mediator;
-			controller.Execute(id);
+
+			object res = GetDialogResult(resultType);
+
+			controller.Execute(resultType, null, res);
 
 			e.Handled = true;
 			IsOpen = false;

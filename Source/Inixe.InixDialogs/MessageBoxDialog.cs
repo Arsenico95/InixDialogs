@@ -127,6 +127,11 @@ namespace Inixe.InixDialogs
 			}
 		}
 
+		protected sealed override object GetDialogResult(DialogResult identifier)
+		{
+			return DialogResult.Ok;
+		}
+
 		protected virtual void OnMessageBoxIconChanged(ImageSource oldValue, ImageSource newValue)
 		{
 			// TODO: Add your property changed side-effects. Descendants can override as well.

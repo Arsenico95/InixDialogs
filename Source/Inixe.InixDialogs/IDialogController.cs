@@ -33,12 +33,17 @@ namespace Inixe.InixDialogs
 		/// <summary>
 		/// Executes the specified identifier.
 		/// </summary>
-		/// <param name="id">The identifier.</param>
-		void Execute(int id);
+		/// <param name="resultType">The identifier.</param>
+		/// <param name="action">The Action that's going to be executed when the Dialog is Closed.</param>
+		/// <param name="state">The state that is associated to the dialog poup</param>
+		/// <param name="resultValue">The Dialog result.</param>
+		/// <remarks>None</remarks>
+		void Execute(DialogResult resultType, object state, object resultValue);
 
 		/// <summary>
-		/// Occurs when [show].
+		/// Occurs when show event is fired.
 		/// </summary>
+		/// <remarks>This event is the actual event that brings the Popups into the screen.</remarks>
 		event EventHandler<ShowEventArgs> Show;
 	}
 }

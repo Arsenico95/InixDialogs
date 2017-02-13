@@ -92,5 +92,10 @@ namespace Inixe.InixDialogs
 		{
 			throw new System.NotImplementedException();
 		}
+
+		protected override object GetDialogResult(DialogResult identifier)
+		{
+			throw new System.NotImplementedException();
+		}
 	}
 }

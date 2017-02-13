@@ -25,17 +25,38 @@ SOFTWARE.
 namespace Inixe.InixDialogs
 {
 	using System;
+	using System.Collections;
 	using System.Collections.Generic;
 	using System.Linq;
 	using System.Text;
 	using System.Threading.Tasks;
 
+	/// <summary>
+	/// Class Utils.
+	/// </summary>
+	/// <remarks>This class is meant to hold all house keeping methods</remarks>
 	internal static class Utils
 	{
+		/// <summary>
+		/// Throws a <see cref="System.ArgumentNullException"/> if the extened object instance is <c>null</c>.
+		/// </summary>
+		/// <param name="obj">The object that will be extended.</param>
+		/// <param name="argumentName">Name of the argument that we're going to use if any exception is thrown.</param>
+		/// <exception cref="ArgumentNullException">When <paramref name="obj"/> is <c>null</c></exception>
+		/// <remarks>Tests the <paramref name="obj"/> for <c>null</c>value</remarks>
 		public static void ThrowIfNull(this object obj, string argumentName)
 		{
 			ThrowIfNullCore(obj, argumentName);
 		}
+
+		/// <summary>
+		/// Throws a <see cref="System.ArgumentNullException"/> if the extened object instance is <c>null</c>.
+		/// </summary>
+		/// <param name="obj">The object that will be extended.</param>
+		/// <param name="argumentName">Name of the argument that we're going to use if any exception is thrown.</param>
+		/// <param name="message">The message that's going to be used as part of the exception thrown if any.</param>
+		/// <exception cref="ArgumentNullException">When <paramref name="obj"/> is <c>null</c></exception>
+		/// <remarks>Tests the <paramref name="obj"/> for <c>null</c>value</remarks>
 		public static void ThrowIfNull(this object obj, string argumentName, string message)
 		{
 			ThrowIfNullCore(obj, argumentName, message);
@@ -49,6 +70,12 @@ namespace Inixe.InixDialogs
 		public static void ThrowIfNullOrEmpty(this string str, string argumentName, string message)
 		{
 			ThrowIfNullOrEmptyCore(str, argumentName, message);
+		}
+
+		public static IDictionary ToSimpleDictionary<TKey,TValue>(this IDictionary<TKey, TValue> dic)
+		{
+			dic.ThrowIfNull("dic");
+			return new Dictionary<TKey, TValue>(dic);
 		}
 
 		private static void ThrowIfNullOrEmptyCore(string str, string argumentName)

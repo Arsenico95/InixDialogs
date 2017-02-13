@@ -25,5 +25,6 @@
         <TextBlock TextAlignment="Center" Text="Hit the button to show the Message box"/>
         <Button Content="Show Message Box" Width="150" Command="{Binding ShowMessageBoxCommand}"/>
         <inixe:MessageBoxDialog Mediator="{Binding MessageBox, Mode=TwoWay}" />
+        <TextBlock Text="{Binding Result,Mode=OneWay}"/>
     </StackPanel>
 </UserControl>

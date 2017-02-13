@@ -1,4 +1,4 @@
-/*
+﻿/*
 							MIT License
 
 Copyright (c) 2016 Ingemar Parra H.
@@ -22,65 +22,22 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
  */
 
-using System;
+
 namespace Inixe.InixDialogs
 {
-	using System.Windows.Media;
+	using System;
+	using System.Collections.Generic;
+	using System.Linq;
+	using System.Text;
+	using System.Threading.Tasks;
 
+	
 	/// <summary>
-	/// Enum MessageBoxButtons
+	/// Class CallbackSet.
 	/// </summary>
-	public enum MessageBoxButtons
+	/// <seealso cref="System.Collections.Generic.Dictionary{System.Int32,System.Action{System.Object,System.Object}}" />
+	/// <remarks>The type is defined in order not to have two GenericTypes nesting one on top of the other</remarks>
+	internal class CallbackSet : Dictionary<DialogResult, Action<object,object>>
 	{
-		Ok,
-		OkCancel,
-		RetryCancel,
-		YesNo,
-		YesNoCancel
-	}
-
-	/// <summary>
-	/// Enum MessageBoxIcon
-	/// </summary>
-	public enum MessageBoxIcon
-	{
-		/// <summary>
-		/// An asterix icon will be displayed
-		/// </summary>
-		Asterix = 32516,
-
-		/// <summary>
-		/// An error icon will be displayed
-		/// </summary>
-		Error = 32513,
-		
-		Exclamation = 32515,
-		Hand = Error,
-		Information = Asterix,
-		None = 0,
-		Question = 32515,
-		Stop = Error,
-		Warning = Exclamation,
-		Custom = 1
-	}
-
-	public enum DialogResult
-	{
-		None=0,
-		Cancel =1,
-		Ok =2,
-		No =3,
-		Yes=4
-	}
-
-	/// <summary>
-	/// Class MessageBoxDialogSettings. This class cannot be inherited.
-	/// </summary>
-	public sealed class MessageBoxDialogSettings : DialogSettingsBase
-	{
-		public ImageSource IconSource { get; set; }
-		public MessageBoxIcon Icon { get; set; }
-		public MessageBoxButtons Buttons { get; set; }
-		public object MessageContent { get; set; }
 	}
 }

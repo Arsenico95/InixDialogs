@@ -133,7 +133,7 @@ namespace Inixe.InixDialogs
 			}
 		}
 
-		void IDialogController.Execute(int id)
+		void IDialogController.Execute(DialogResult resultType, object state, object result)
 		{
 			throw new NotImplementedException();
 		}

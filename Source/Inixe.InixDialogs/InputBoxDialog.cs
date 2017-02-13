@@ -26,6 +26,11 @@ namespace Inixe.InixDialogs
 {
 	public class InputBoxDialog : DialogBase
 	{
+		protected override object GetDialogResult(DialogResult identifier)
+		{
+			throw new System.NotImplementedException();
+		}
+
 		protected override void SetupDialog(DialogSettingsBase settings)
 		{
 			throw new System.NotImplementedException();

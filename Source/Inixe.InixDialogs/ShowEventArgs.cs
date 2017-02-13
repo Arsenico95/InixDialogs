@@ -30,23 +30,33 @@ namespace Inixe.InixDialogs
 
 	internal class ShowEventArgs : EventArgs
 	{
-		private readonly DialogSettingsBase settings;
+		private readonly DialogSettingsBase _settings;
+		private readonly CallbackSet _callbacks;
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="ShowEventArgs"/> class.
 		/// </summary>
 		/// <param name="settings"></param>
-		internal ShowEventArgs(DialogSettingsBase settings)
+		internal ShowEventArgs(DialogSettingsBase settings, CallbackSet callbacks)
 		{
 			settings.ThrowIfNull("settings");
-			this.settings = settings;
+			this._settings = settings;
+			this._callbacks = callbacks;
+		}
+
+		internal CallbackSet Callbacks
+		{
+			get
+			{
+				return _callbacks;
+			}
 		}
 
 		internal DialogSettingsBase Settings 
 		{ 
 			get
 			{
-				return settings;
+				return _settings;
 			} 
 		}
 	}
