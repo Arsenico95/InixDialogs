@@ -32,8 +32,10 @@ namespace Inixe.InixDialogs.Tests
 	public class FileIconResolverTests
 	{
 		[TestMethod]
-		public void TestMethod1()
+		public void GetInstanceExpected()
 		{
+			FileIconResolver resolver = FileIconResolver.GetInstance();
+			Assert.IsNotNull(resolver);
 		}
 	}
 }

@@ -70,6 +70,11 @@ namespace Inixe.InixDialogs
 			this.DefaultStyleKey = typeof(MessageBoxDialog);
 		}
 
+		/// <summary>
+		/// Gets the icon image source.
+		/// </summary>
+		/// <value>The icon.</value>
+		/// <remarks>When using the custom icon mode this Icon that's going to be displayed</remarks>
 		public ImageSource Icon
 		{
 			get
@@ -125,11 +130,50 @@ namespace Inixe.InixDialogs
 			{
 				Icon = FetchMessageBoxIcon((int)msgBoxSettings.Icon);
 			}
+
+			switch (msgBoxSettings.Buttons)
+			{
+				case MessageBoxButtons.Ok:
+					Button1.Content = Properties.Resources.OkButtonText;
+					Button2.Visibility = System.Windows.Visibility.Collapsed;
+					Button3.Visibility = System.Windows.Visibility.Collapsed;
+					break;
+				case MessageBoxButtons.OkCancel:
+					Button1.Content = Properties.Resources.OkButtonText;
+					Button2.Visibility = System.Windows.Visibility.Collapsed;
+					Button3.Content = Properties.Resources.CancelButtonText;
+					Button3.Visibility = System.Windows.Visibility.Visible;
+					break;
+				case MessageBoxButtons.RetryCancel:
+					Button1.Content = Properties.Resources.RetryButtonText;
+					Button2.Visibility = System.Windows.Visibility.Collapsed;
+					Button3.Content = Properties.Resources.CancelButtonText;
+					Button3.Visibility = System.Windows.Visibility.Visible;
+					break;
+				case MessageBoxButtons.YesNo:
+					Button1.Visibility = System.Windows.Visibility.Visible;
+					Button1.Content = Properties.Resources.YesButtonText;
+
+					Button2.Visibility = System.Windows.Visibility.Visible;
+					Button2.Content = Properties.Resources.NoButtonText;
+
+					break;
+				case MessageBoxButtons.YesNoCancel:
+					Button1.Visibility = System.Windows.Visibility.Visible;
+					Button1.Content = Properties.Resources.YesButtonText;
+
+					Button2.Visibility = System.Windows.Visibility.Visible;
+					Button2.Content = Properties.Resources.NoButtonText;
+
+					Button3.Content = Properties.Resources.CancelButtonText;
+					Button3.Visibility = System.Windows.Visibility.Visible;
+					break;
+			}  
 		}
 
 		protected sealed override object GetDialogResult(DialogResult identifier)
 		{
-			return DialogResult.Ok;
+			return identifier;
 		}
 
 		protected virtual void OnMessageBoxIconChanged(ImageSource oldValue, ImageSource newValue)

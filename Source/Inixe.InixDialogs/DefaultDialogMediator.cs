@@ -49,6 +49,7 @@ namespace Inixe.InixDialogs
 		/// <param name="relayed"></param>
 		internal DefaultDialogMediator(IDialogMediator relayed)
 		{
+			relayed.ThrowIfNull("relayed");
 			_relayed = relayed;
 		}
 

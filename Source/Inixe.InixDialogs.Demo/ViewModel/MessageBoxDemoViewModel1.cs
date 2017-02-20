@@ -1,4 +1,27 @@
-﻿
+﻿/*
+							MIT License
+
+Copyright (c) 2016 Ingemar Parra H.
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+ */
+
 namespace Inixe.InixDialogs.Demo.ViewModel
 {
 	using Inixe.InixDialogs.Demo.Support;
@@ -11,7 +34,12 @@ namespace Inixe.InixDialogs.Demo.ViewModel
 	using System.Windows.Input;
 	using System.Windows;
 
-	internal class MessageBoxDemoViewModel1 : INotifyPropertyChanged
+	/// <summary>
+	/// Class MessageBoxDemoViewModel1.
+	/// </summary>
+	/// <seealso cref="System.ComponentModel.INotifyPropertyChanged" />
+	/// <remarks>None</remarks>
+	public class MessageBoxDemoViewModel1 : INotifyPropertyChanged
 	{
 		private ICommand _showMessageBoxCommand;
 		private string _result;
@@ -24,11 +52,19 @@ namespace Inixe.InixDialogs.Demo.ViewModel
 		public MessageBoxDemoViewModel1()
 		{
 			_showMessageBoxCommand = new OperationCommand(OnShowMessageBox);
-			// System.Windows.SystemColors.
 		}
 
+		/// <summary>
+		/// Occurs when a property has changed.
+		/// </summary>
+		/// <remarks>None</remarks>
 		public event PropertyChangedEventHandler PropertyChanged;
 
+		/// <summary>
+		/// Gets or sets the result.
+		/// </summary>
+		/// <value>The result.</value>
+		/// <remarks>None</remarks>
 		public string Result
 		{
 			get
@@ -46,6 +82,11 @@ namespace Inixe.InixDialogs.Demo.ViewModel
 			}
 		}
 
+		/// <summary>
+		/// Gets the show message box command.
+		/// </summary>
+		/// <value>The show message box command.</value>
+		/// <remarks>None</remarks>
 		public ICommand ShowMessageBoxCommand
 		{
 			get
@@ -54,6 +95,14 @@ namespace Inixe.InixDialogs.Demo.ViewModel
 			}
 		}
 
+		/// <summary>
+		/// Gets or sets the message box mediator.
+		/// </summary>
+		/// <value>The message box mediator.</value>
+		/// <remarks>Message box property can be null, when attached to a view with a compatible control
+		/// The Control is going to lazy inject an <see cref=" IDialogMediator"/> instance that knows the existence of
+		/// the corresponding control it's bound to. If the Mediator property is not <c>null</c>, then the supplied instance will
+		/// Act as the actual caller for the methods the mediator implements. Check example 2 in order to see what happends.</remarks>
 		public IDialogMediator MessageBox
 		{
 			get
@@ -74,6 +123,7 @@ namespace Inixe.InixDialogs.Demo.ViewModel
 		/// <summary>
 		/// Triggers the PropertyChanged event.
 		/// </summary>
+		/// <remarks>None</remarks>
 		protected virtual void OnPropertyChanged(string propertyName)
 		{
 			PropertyChangedEventHandler handler = this.PropertyChanged;
@@ -83,6 +133,10 @@ namespace Inixe.InixDialogs.Demo.ViewModel
 		}
 
 
+		/// <summary>
+		/// Called when the show Commad is signaled, opens a Message Box.
+		/// </summary>
+		/// <remarks>None</remarks>
 		private void OnShowMessageBox()
 		{
 			var dialogSettings = new MessageBoxDialogSettings();

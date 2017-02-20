@@ -31,8 +31,10 @@ namespace Inixe.InixDialogs.Tests
 	public class InixDialogsTests
 	{
 		[TestMethod]
-		public void TestMethod1()
+		public void MessageBoxDialogExpected()
 		{
+			MessageBoxDialog dialog = new MessageBoxDialog();
+			Assert.IsNotNull(dialog);
 		}
 	}
 }

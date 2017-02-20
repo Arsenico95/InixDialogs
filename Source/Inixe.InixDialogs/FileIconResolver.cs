@@ -35,6 +35,10 @@ namespace Inixe.InixDialogs
 	using System.Windows.Interop;
 	using System.Windows;
 
+	/// <summary>
+	/// Class FileIconResolver. This class cannot be inherited.
+	/// </summary>
+	/// <remarks>None</remarks>
 	internal sealed class FileIconResolver 
 	{
 		private const int MaxPath = 256;
@@ -44,11 +48,20 @@ namespace Inixe.InixDialogs
 		private static FileIconResolver _instance;
 		private Dictionary<string, BitmapSource> _iconCache;
 
+		/// <summary>
+		/// Prevents a default instance of the <see cref="FileIconResolver"/> class from being created.
+		/// </summary>
+		/// <remarks>None</remarks>
 		private FileIconResolver()
 		{  
 			_iconCache = new Dictionary<string,BitmapSource>();
 		}
 
+		/// <summary>
+		/// Gets the singleton instance.
+		/// </summary>
+		/// <returns>A FileIconResolver instance.</returns>
+		/// <remarks>None</remarks>
 		public static FileIconResolver GetInstance()
 		{
 			if (_instance == null)
@@ -57,6 +70,13 @@ namespace Inixe.InixDialogs
 			return _instance;
 		}
 
+		/// <summary>
+		/// Gets the document icon for a given file path.
+		/// </summary>
+		/// <param name="path">The path to the file.</param>
+		/// <returns>A BitmapSource instance.</returns>
+		/// <exception cref="ArgumentException">When <paramref name="path"/> is null or empty.</exception>
+		/// <remarks>None</remarks>
 		public BitmapSource GetFileIcon(string path)
 		{
 			path.ThrowIfNullOrEmpty("path");
@@ -134,7 +154,6 @@ namespace Inixe.InixDialogs
 			Attributes = 0x000000800,
 			AddonOverlays = 0x000000020,
 			AttributeSpecified = 0x000020000
-			
 		}
 	}
 }

@@ -97,6 +97,15 @@ namespace Inixe.InixDialogs.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Retry.
+        /// </summary>
+        public static string RetryButtonText {
+            get {
+                return ResourceManager.GetString("RetryButtonText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Save.
         /// </summary>
         public static string SaveButtonText {

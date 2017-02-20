@@ -129,6 +129,9 @@
   <data name="OpenButtonText" xml:space="preserve">
     <value>Open</value>
   </data>
+  <data name="RetryButtonText" xml:space="preserve">
+    <value>Retry</value>
+  </data>
   <data name="SaveButtonText" xml:space="preserve">
     <value>Save</value>
   </data>

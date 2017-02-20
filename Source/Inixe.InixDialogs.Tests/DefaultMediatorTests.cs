@@ -31,10 +31,42 @@ namespace Inixe.InixDialogs.Tests
 	[TestClass]
 	public class DefaultMediatorTests
 	{
+		public TestContext TestContext { get; set; }
+
 		[TestMethod]
-		public void AddRelayerExpected()
+		public void DefaultDialogMediatorExpected()
 		{
-			DefaultDialogMediator mediator = new DefaultDialogMediator();			
+			DefaultDialogMediator mediator = new DefaultDialogMediator();
 		}
+
+		[TestMethod]
+		public void DefaultDialogMediatorWithRelayerExpected()
+		{			
+			var mock = new DialogMediatorMock(this.TestContext);
+			PrivateObject po = new PrivateObject(typeof(DefaultDialogMediator), mock);
+		}
+		
+		private class DialogMediatorMock : IDialogMediator
+		{
+			private readonly TestContext context;
+			internal DialogMediatorMock(TestContext context)
+			{
+				this.context = context;
+			}
+			#region IDialogMediator Members
+
+			public void ShowDialog<TState>(Action<TState, object> nextAction, Action<TState, object> otherAction, TState state, DialogSettingsBase settings)
+			{
+				this.context.WriteLine("Showing Two Buttons");
+			}
+
+			public void ShowDialog<TState>(Action<TState, object> yesAction, Action<TState, object> noAction, Action<TState, object> otherAction, TState state, DialogSettingsBase settings)
+			{
+				this.context.WriteLine("Showing Three Buttons");
+			}
+
+			#endregion
+		}
+
 	}
 }
