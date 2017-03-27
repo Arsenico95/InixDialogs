@@ -6,25 +6,65 @@
              xmlns:vm="clr-namespace:Inixe.InixDialogs.Demo.ViewModel"
              xmlns:inixe="http://www.inixe.com.mx/InixDialogs/2016"
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300">
+             d:DesignHeight="300" d:DesignWidth="500">
     <UserControl.DataContext>
         <vm:MessageBoxDemoViewModel1/>
     </UserControl.DataContext>
-    <StackPanel>
-        <StackPanel.Style>
-            <Style TargetType="{x:Type StackPanel}">
-                <Style.Resources>
-                    <Style TargetType="{x:Type Control}">
-                        <Style.Setters>
-                            <Setter Property="Margin" Value="0,5,0,5"/>
-                        </Style.Setters>
-                    </Style>
-                </Style.Resources>
-            </Style>
-        </StackPanel.Style>
-        <TextBlock TextAlignment="Center" Text="Hit the button to show the Message box"/>
-        <Button Content="Show Message Box" Width="150" Command="{Binding ShowMessageBoxCommand}"/>
-        <inixe:MessageBoxDialog Mediator="{Binding MessageBox, Mode=TwoWay}" />
-        <TextBlock Text="{Binding Result,Mode=OneWay}"/>
+    <UserControl.Resources>
+        <BitmapImage UriSource="/Images/InixeCDMX-01.jpg" x:Key="InixeBackgroundImage"/>
+        <ImageBrush ImageSource="{StaticResource InixeBackgroundImage}" x:Key="BackgroundBrush"/>
+        <LinearGradientBrush StartPoint="0,0" EndPoint="0,1" x:Key="TitleGradient">
+            <LinearGradientBrush.GradientStops>
+                <GradientStop Color="White" Offset="0.2"/>
+                <GradientStop Color="WhiteSmoke" Offset="0.85"/>
+                <GradientStop Color="Gray" Offset="0.95"/>
+            </LinearGradientBrush.GradientStops>
+        </LinearGradientBrush>
+        <Style TargetType="{x:Type TextBlock}" x:Key="TitleStyle">
+            <Style.Setters>
+                <Setter Property="Margin" Value="5,5,5,5"/>
+                <Setter Property="TextAlignment" Value="Center"/>
+                <Setter Property="FontFamily" Value="Impact"/>
+                <Setter Property="Foreground" Value="{StaticResource TitleGradient}"/>
+                <Setter Property="FontWeight" Value="Thin"/>
+                <Setter Property="FontSize" Value="42"/>
+                <Setter Property="TextBlock.Effect">
+                    <Setter.Value>
+                        <DropShadowEffect ShadowDepth="6" Direction="315" BlurRadius="5" Opacity="0.7"/>
+                    </Setter.Value>
+                </Setter>
+            </Style.Setters>
+        </Style>
+        <Style TargetType="{x:Type Button}">
+            <Style.Setters>
+                <Setter Property="Margin" Value="5,5,5,5"/>
+                <Setter Property="Height" Value="35"/>
+                <Setter Property="Width" Value="150"/>
+            </Style.Setters>
+        </Style>
+        <Style TargetType="{x:Type TextBlock}" x:Key="InstructionsStyle">
+            <Style.Setters>
+                <Setter Property="Margin" Value="5,5,5,5"/>
+                <Setter Property="TextAlignment" Value="Center"/>
+                <Setter Property="Foreground" Value="LightGray"/>
+            </Style.Setters>
+        </Style>
+        
+        <Style TargetType="{x:Type TextBlock}" x:Key="ResultTextStyle">
+            <Style.Setters>
+                <Setter Property="Foreground" Value="WhiteSmoke"/>
+                <Setter Property="TextAlignment" Value="Left"/>
+                <Setter Property="Margin" Value="55,135,5,5"/>
+                <Setter Property="FontSize" Value="18"/>
+            </Style.Setters>
+        </Style>
+    </UserControl.Resources>
+    <StackPanel Background="{StaticResource BackgroundBrush}">
+        <TextBlock Text="Demo 1" Style="{StaticResource TitleStyle}"/>
+        <TextBlock TextAlignment="Center" Text="Hit the button to show the Message box" Style="{StaticResource InstructionsStyle}"/>
+        <Button Content="Show Message Box" Command="{Binding ShowMessageBoxCommand}"/>
+        <TextBlock Text="{Binding Result,Mode=OneWay}" Style="{StaticResource ResultTextStyle}"/>
+        
+        <inixe:MessageBoxDialog Mediator="{Binding MessageBox, Mode=TwoWay}" />        
     </StackPanel>
 </UserControl>

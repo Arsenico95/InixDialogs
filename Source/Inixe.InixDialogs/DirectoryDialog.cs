@@ -35,5 +35,10 @@ namespace Inixe.InixDialogs
 		{
 			throw new System.NotImplementedException();
 		}
+
+		protected override System.Collections.Generic.IDictionary<string, DialogResult> ButtonDialogResultMapping
+		{
+			get { throw new System.NotImplementedException(); }
+		}
 	}
 }

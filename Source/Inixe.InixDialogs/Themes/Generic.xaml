@@ -73,7 +73,7 @@
                                                 </Style>
                                             </Grid.Resources>
                                             <Image Grid.Column="0" Margin="5,5,5,5" Source="{TemplateBinding Icon}"/>
-                                            <ContentPresenter Grid.Column="1" Grid.ColumnSpan="2" VerticalAlignment="Center" HorizontalAlignment="Center" Content="{TemplateBinding MessageContent}"/>
+                                            <ContentPresenter Grid.Column="1" Grid.ColumnSpan="2" VerticalAlignment="Center" HorizontalAlignment="Center" Content="{TemplateBinding MessageContent}" ContentTemplate="{TemplateBinding MessageContentTemplate}"/>
                                         </Grid>
                                         <Grid Grid.Column="0" Grid.Row="2" Background="{x:Static SystemColors.AppWorkspaceBrush}">
                                             <Grid.ColumnDefinitions>
@@ -96,7 +96,7 @@
                                             </Grid.Resources>
                                             
                                             <Button x:Name="PART_Button1" Grid.Row="0" Grid.Column="0" Content="{x:Static localization:Resources.OkButtonText}"></Button>
-                                            <Button x:Name="PART_Button2" Grid.Row="0" Grid.Column="1" Content="{x:Static localization:Resources.YesButtonText}"></Button>
+                                            <Button x:Name="PART_Button2" Grid.Row="0" Grid.Column="1" Content="{x:Static localization:Resources.NoButtonText}"></Button>
                                             <Button x:Name="PART_Button3" Grid.Row="0" Grid.Column="2" Content="{x:Static localization:Resources.CancelButtonText}"></Button>
                                         </Grid>
                                     </Grid>

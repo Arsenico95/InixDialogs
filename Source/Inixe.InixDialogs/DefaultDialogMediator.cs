@@ -30,6 +30,7 @@ namespace Inixe.InixDialogs
 	/// <summary>
 	/// Class DefaultDialogMediator.
 	/// </summary>
+	/// <remarks>The default dialog mediator is the easiest way to use the </remarks>
 	public class DefaultDialogMediator : IDialogMediatorController
 	{
 		private IDialogMediator _relayed;

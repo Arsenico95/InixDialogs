@@ -37,7 +37,10 @@ namespace Inixe.InixDialogs
 
 	/// <summary>
 	/// Class DialogBase.
-	/// </summary>    
+	/// </summary>
+	/// <remarks>This is the base class for every Dialog on the library. The class defines the basic structure of a modal dialog box.
+	/// <para>Dialog Boxes come in many flavours and the only sole thing they share is the fact that the modal dialg is going to be closed at some point in time.
+	/// So the basic items that all modal dialogs share are the closing buttons, and the title bar, if we think of the classic Windows Message Box and Dialogs.</para></remarks>
 	[TemplatePart(Name = "PART_Popup", Type = typeof(Popup))]
 	[TemplatePart(Name = "PART_Button1", Type = typeof(Button))]
 	[TemplatePart(Name = "PART_Button2", Type = typeof(Button))]
@@ -73,6 +76,13 @@ namespace Inixe.InixDialogs
         private Button _button2;
         private Button _button3;
 
+		private Point _startDragPoint;
+		private bool _isDragging;
+
+		/// <summary>
+		/// Initializes static members of the <see cref="DialogBase"/> class.
+		/// </summary>
+		/// <remarks>None</remarks>
 		static DialogBase()
 		{
 			PropertyMetadata dialogTitleMeta = new PropertyMetadata(string.Empty, new PropertyChangedCallback(OnDialogTitleChanged));
@@ -92,6 +102,7 @@ namespace Inixe.InixDialogs
 		/// <summary>
 		/// Initializes a new instance of the <see cref="DialogBase"/> class.
 		/// </summary>
+		/// <remarks>None</remarks>
 		public DialogBase()
 		{
 			_popUp = null;
@@ -100,6 +111,11 @@ namespace Inixe.InixDialogs
 			_button3 = null;
 		}
 
+		/// <summary>
+		/// Gets the pop up instance.
+		/// </summary>
+		/// <value>The pop up.</value>
+		/// <remarks>None</remarks>
 		public Popup PopUp
 		{
 			get
@@ -108,6 +124,11 @@ namespace Inixe.InixDialogs
 			}
 		}
 
+		/// <summary>
+		/// Gets or sets the mediator used by the instance.
+		/// </summary>
+		/// <value>The mediator.</value>
+		/// <remarks>None</remarks>
 		public IDialogMediator Mediator
 		{
 			get
@@ -121,6 +142,11 @@ namespace Inixe.InixDialogs
 			}
 		}
 
+		/// <summary>
+		/// Gets a value indicating whether this instance is open.
+		/// </summary>
+		/// <value><c>true</c> if this instance is open; otherwise, <c>false</c>.</value>
+		/// <remarks>None</remarks>
 		internal bool IsOpen
 		{
 			get
@@ -134,6 +160,11 @@ namespace Inixe.InixDialogs
 			}
 		}
 
+		/// <summary>
+		/// Gets the dialog title used for this instance.
+		/// </summary>
+		/// <value>The dialog title.</value>
+		/// <remarks>None</remarks>
 		public string DialogTitle
 		{
 			get
@@ -171,6 +202,18 @@ namespace Inixe.InixDialogs
 			}
 		}
 
+		/// <summary>
+		/// Gets the button and <see cref="DialogResult"/>result mapping.
+		/// </summary>
+		/// <value>The button result mapping.</value>
+		/// <remarks>Button result mapping is responsable of mapping the result values to a button when it's clicked.</remarks>
+		protected abstract IDictionary<string, DialogResult> ButtonDialogResultMapping { get; }
+
+		/// <summary>
+		/// Raises the <see cref="E:System.Windows.FrameworkElement.Initialized" /> event. This method is invoked whenever <see cref="P:System.Windows.FrameworkElement.IsInitialized" /> is set to true internally.
+		/// </summary>
+		/// <param name="e">The <see cref="T:System.Windows.RoutedEventArgs" /> that contains the event data.</param>
+		/// <remarks>None</remarks>
 		protected override void OnInitialized(EventArgs e)
 		{
 			base.OnInitialized(e);
@@ -179,6 +222,10 @@ namespace Inixe.InixDialogs
 			RegisterMediator();		
 		}
 
+		/// <summary>
+		/// When overridden in a derived class, is invoked whenever application code or internal processes call <see cref="M:System.Windows.FrameworkElement.ApplyTemplate" />.
+		/// </summary>
+		/// <remarks>None</remarks>
 		public override void OnApplyTemplate()
 		{
 			base.OnApplyTemplate();
@@ -187,6 +234,9 @@ namespace Inixe.InixDialogs
 				return;
 
 			_popUp = (Popup)GetTemplateChild("PART_Popup");
+			_popUp.Child.MouseDown += PopupChild_MouseDown;
+			_popUp.Child.MouseMove += PopupChild_MouseMove;
+			_popUp.Child.MouseUp += PopupChild_MouseUp;
 
 			// If we use CommandBindings we're handing over to inheritors or style overriders the responsability of 
 			// implementing the actual command calls in their templates(Or attach'em in the XAML). 
@@ -202,16 +252,34 @@ namespace Inixe.InixDialogs
 			_button3.Click += Button_Click;
 		}
 
+		/// <summary>
+		/// Called when the dialog settings have changed.
+		/// </summary>
+		/// <param name="oldValue">The old value.</param>
+		/// <param name="newValue">The new value.</param>
+		/// <remarks>None</remarks>
 		protected virtual void OnSettingsChanged(DialogSettingsBase oldValue, DialogSettingsBase newValue)
 		{
 			// Let inheritors use this
 		}
 
+		/// <summary>
+		/// Called when the is open property has changed.
+		/// </summary>
+		/// <param name="oldValue">if set to <c>true</c> The dialog was opened and therefore now is closing.</param>
+		/// <param name="newValue">if set to <c>true</c> The dialog was closed and therefore now is showing.</param>
+		/// <remarks>None</remarks>
 		protected virtual void OnIsOpenChanged(bool oldValue, bool newValue)
 		{
 			// Let inheritors use this
 		}
 
+		/// <summary>
+		/// Called when the dialog mediator has changed.
+		/// </summary>
+		/// <param name="oldValue">The old value.</param>
+		/// <param name="newValue">The new value.</param>
+		/// <remarks>When overriden this method is responsible of attaching the mediator to the instance.</remarks>
 		protected virtual void OnMediatorChanged(IDialogMediator oldValue, IDialogMediator newValue)
 		{
 			IDialogController oldEvents = oldValue as IDialogController;
@@ -232,6 +300,11 @@ namespace Inixe.InixDialogs
 				newEvents.Show += DialogEvents_Show;
 		}
 
+		/// <summary>
+		/// Creates the mediator the current instance is going to be attached to.
+		/// </summary>
+		/// <returns>A IDialogMediator.</returns>
+		/// <remarks>Every Dialog can override this method to have a custom mediator implementation.</remarks>
 		protected virtual IDialogMediator CreateMediator()
 		{
 			IDialogMediator retval = new SimpleDialogMediator();
@@ -249,13 +322,31 @@ namespace Inixe.InixDialogs
 		/// <remarks>Tells the inheritors to setup their properties in order to display the dialog.</remarks>
 		protected abstract void SetupDialog(DialogSettingsBase settings);
 
+		/// <summary>
+		/// Gets the dialog result once the dialog is closing.
+		/// </summary>
+		/// <param name="identifier">The identifier.</param>
+		/// <returns>System.Object.</returns>
+		/// <remarks>None</remarks>
 		protected abstract object GetDialogResult(DialogResult identifier);
 
+		/// <summary>
+		/// Called when the dialog title has changed.
+		/// </summary>
+		/// <param name="oldValue">The old value.</param>
+		/// <param name="newValue">The new value.</param>
+		/// <remarks>None</remarks>
 		protected virtual void OnDialogTitleChanged(string oldValue, string newValue)
 		{
 			// Let inheritors use this
 		}
 
+		/// <summary>
+		/// Handles the <see cref="E:SettingsChanged" /> event.
+		/// </summary>
+		/// <param name="o">The o.</param>
+		/// <param name="e">The <see cref="DependencyPropertyChangedEventArgs"/> instance containing the event data.</param>
+		/// <remarks>None</remarks>
 		private static void OnSettingsChanged(DependencyObject o, DependencyPropertyChangedEventArgs e)
 		{
 			DialogBase dialogBase = o as DialogBase;
@@ -263,6 +354,12 @@ namespace Inixe.InixDialogs
 				dialogBase.OnSettingsChanged((DialogSettingsBase)e.OldValue, (DialogSettingsBase)e.NewValue);
 		}
 
+		/// <summary>
+		/// Handles the <see cref="E:DialogTitleChanged" /> event.
+		/// </summary>
+		/// <param name="o">The o.</param>
+		/// <param name="e">The <see cref="DependencyPropertyChangedEventArgs"/> instance containing the event data.</param>
+		/// <remarks>None</remarks>
 		private static void OnDialogTitleChanged(DependencyObject o, DependencyPropertyChangedEventArgs e)
 		{
 			DialogBase dialogBase = o as DialogBase;
@@ -270,6 +367,12 @@ namespace Inixe.InixDialogs
 				dialogBase.OnDialogTitleChanged((string)e.OldValue, (string)e.NewValue);
 		}
 
+		/// <summary>
+		/// Handles the <see cref="E:MediatorChanged" /> event.
+		/// </summary>
+		/// <param name="o">The o.</param>
+		/// <param name="e">The <see cref="DependencyPropertyChangedEventArgs"/> instance containing the event data.</param>
+		/// <remarks>None</remarks>
 		private static void OnMediatorChanged(DependencyObject o, DependencyPropertyChangedEventArgs e)
 		{
 			DialogBase dialogBase = o as DialogBase;
@@ -277,6 +380,12 @@ namespace Inixe.InixDialogs
 				dialogBase.OnMediatorChanged((IDialogMediator)e.OldValue, (IDialogMediator)e.NewValue);
 		}
 
+		/// <summary>
+		/// Handles the <see cref="E:IsOpenChanged" /> event.
+		/// </summary>
+		/// <param name="o">The o.</param>
+		/// <param name="e">The <see cref="DependencyPropertyChangedEventArgs"/> instance containing the event data.</param>
+		/// <remarks>None</remarks>
 		private static void OnIsOpenChanged(DependencyObject o, DependencyPropertyChangedEventArgs e)
 		{
 			DialogBase dialogBase = o as DialogBase;
@@ -284,6 +393,11 @@ namespace Inixe.InixDialogs
 				dialogBase.OnIsOpenChanged((bool)e.OldValue, (bool)e.NewValue);
 		}
 
+		/// <summary>
+		/// Registers the mediator.
+		/// </summary>
+		/// <remarks>If no Mediator is supplied through the <see cref="Mediator"/>, a default mediator is created for the instance. 
+		/// Otherwise the instance mediator registers it self into the current mediator.</remarks>
 		private void RegisterMediator()
 		{
 			if (Mediator == null)
@@ -294,6 +408,12 @@ namespace Inixe.InixDialogs
 				relayerMediator.AddMediator(CreateMediator());
 		}
 
+		/// <summary>
+		/// Handles the Show event of the DialogEvents control.
+		/// </summary>
+		/// <param name="sender">The source of the event.</param>
+		/// <param name="e">The <see cref="ShowEventArgs"/> instance containing the event data.</param>
+		/// <remarks>None</remarks>
 		private void DialogEvents_Show(object sender, ShowEventArgs e)
 		{
 			DialogTitle = e.Settings.HeaderText;
@@ -303,12 +423,28 @@ namespace Inixe.InixDialogs
 			IsOpen = true;
 		}
 
+		/// <summary>
+		/// Handles the Click event of the Button control.
+		/// </summary>
+		/// <param name="sender">The source of the event.</param>
+		/// <param name="e">The <see cref="RoutedEventArgs"/> instance containing the event data.</param>
+		/// <remarks>Here's where the actual dialog result is resolved. In other words this is the first stage of the end.
+		/// Then a controller is executed and then we'll be called back into the mediator instance.</remarks>
 		private void Button_Click(object sender, RoutedEventArgs e)
 		{
 			Button sourceButton = (Button)sender;
-			
-			int id =(int)char.GetNumericValue(sourceButton.Name[sourceButton.Name.Length - 1]);
-			DialogResult resultType = (DialogResult)id;
+
+			DialogResult resultType;
+
+			try
+			{
+				resultType = ButtonDialogResultMapping[sourceButton.Name];
+			}
+			catch (KeyNotFoundException)
+			{
+
+				resultType = DialogResult.None;
+			}
 
 			IDialogController controller = (IDialogController)Mediator;
 
@@ -318,6 +454,61 @@ namespace Inixe.InixDialogs
 
 			e.Handled = true;
 			IsOpen = false;
+		}
+
+		/// <summary>
+		/// Handles the MouseUp event of the PopupChild control.
+		/// </summary>
+		/// <param name="sender">The source of the event.</param>
+		/// <param name="e">The <see cref="MouseButtonEventArgs"/> instance containing the event data.</param>
+		/// <remarks>This method forms part of a chain of events that handle the Dialog moving on the screen.</remarks>
+		private void PopupChild_MouseUp(object sender, MouseButtonEventArgs e)
+		{
+			if (e.ChangedButton == MouseButton.Left && _isDragging)
+			{
+				_popUp.Child.ReleaseMouseCapture();
+
+				_isDragging = false;
+				e.Handled = true;
+			}
+		}
+
+		/// <summary>
+		/// Handles the MouseMove event of the PopupChild control.
+		/// </summary>
+		/// <param name="sender">The source of the event.</param>
+		/// <param name="e">The <see cref="MouseEventArgs"/> instance containing the event data.</param>
+		/// <remarks>This method forms part of a chain of events that handle the Dialog moving on the screen.</remarks>
+		private void PopupChild_MouseMove(object sender, MouseEventArgs e)
+		{
+			if (_isDragging)
+			{
+				var pos = e.GetPosition(null);
+
+				_popUp.HorizontalOffset += (pos.X - _startDragPoint.X);
+				_popUp.VerticalOffset += (pos.Y - _startDragPoint.Y);
+				e.Handled = true;
+			}
+		}
+
+		/// <summary>
+		/// Handles the MouseDown event of the PopupChild control.
+		/// </summary>
+		/// <param name="sender">The source of the event.</param>
+		/// <param name="e">The <see cref="MouseButtonEventArgs"/> instance containing the event data.</param>
+		/// <remarks>This method forms part of a chain of events that handle the Dialog moving on the screen.</remarks>
+		private void PopupChild_MouseDown(object sender, MouseButtonEventArgs e)
+		{
+			
+			if(e.ChangedButton== MouseButton.Left)
+			{
+				_startDragPoint = e.GetPosition(null);
+
+				_popUp.Child.CaptureMouse();
+				
+				_isDragging = true;
+				e.Handled = true;
+			}
 		}
     }
 }

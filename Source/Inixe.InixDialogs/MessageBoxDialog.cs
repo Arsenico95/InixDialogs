@@ -24,6 +24,7 @@ SOFTWARE.
 
 
 
+using System.Collections.Generic;
 namespace Inixe.InixDialogs
 {
 	using System.Windows;
@@ -44,15 +45,21 @@ namespace Inixe.InixDialogs
 	{
 		public static readonly DependencyPropertyKey MessageContentProperty;
 		public static readonly DependencyPropertyKey IconProperty;
+		public static readonly DependencyProperty MessageContentTemplateProperty;
 		
 		
 		private ContentPresenter _messageContent;
+		private IDictionary<string, DialogResult> _resultMappings;
 
 		/// <summary>
 		/// Initializes static members of the <see cref="MessageBoxDialog"/> class.
 		/// </summary>
 		static MessageBoxDialog()
 		{
+			PropertyChangedCallback messageContentTemplateCallback = new PropertyChangedCallback(OnMessageContentTemplateChanged);
+			PropertyMetadata messageContentTemplateMeta = new PropertyMetadata(messageContentTemplateCallback);
+			MessageContentTemplateProperty = DependencyProperty.Register("MessageContentTemplate", typeof(DataTemplate), typeof(MessageBoxDialog), messageContentTemplateMeta);
+
 			PropertyChangedCallback iconCallback = new PropertyChangedCallback(OnMessageBoxIconChanged);
 			PropertyMetadata iconMeta = new PropertyMetadata(null, iconCallback);
 			IconProperty = DependencyProperty.RegisterReadOnly("Icon", typeof(ImageSource), typeof(MessageBoxDialog), iconMeta);
@@ -67,9 +74,22 @@ namespace Inixe.InixDialogs
 		/// </summary>
 		public MessageBoxDialog()
 		{
-			this.DefaultStyleKey = typeof(MessageBoxDialog);
+			DefaultStyleKey = typeof(MessageBoxDialog);
+			_resultMappings = new Dictionary<string, DialogResult>();
 		}
 
+		public DataTemplate MessageContentTemplate
+		{
+			// IMPORTANT: To maintain parity between setting a property in XAML and procedural code, do not touch the getter and setter inside this dependency property!
+			get
+			{
+				return (DataTemplate)GetValue(MessageContentTemplateProperty);
+			}
+			set
+			{
+				SetValue(MessageContentTemplateProperty, value);
+			}
+		}
 		/// <summary>
 		/// Gets the icon image source.
 		/// </summary>
@@ -106,6 +126,19 @@ namespace Inixe.InixDialogs
 		}
 
 		/// <summary>
+		/// Gets the button and <see cref="DialogResult" />result mapping.
+		/// </summary>
+		/// <value>The button result mapping.</value>
+		/// <remarks>Button result mapping is responsable of mapping the result values to a button when it's clicked.</remarks>
+		protected override IDictionary<string, DialogResult> ButtonDialogResultMapping
+		{
+			get
+			{
+				return this._resultMappings;
+			}
+		}
+
+		/// <summary>
 		/// Called when the cotrol should apply it's template.
 		/// </summary>
 		/// <remarks>None</remarks>
@@ -127,28 +160,35 @@ namespace Inixe.InixDialogs
 			MessageContent = msgBoxSettings.MessageContent;
 
 			if (msgBoxSettings.Icon != MessageBoxIcon.Custom)
-			{
 				Icon = FetchMessageBoxIcon((int)msgBoxSettings.Icon);
-			}
 
+			_resultMappings.Clear();
 			switch (msgBoxSettings.Buttons)
 			{
 				case MessageBoxButtons.Ok:
 					Button1.Content = Properties.Resources.OkButtonText;
 					Button2.Visibility = System.Windows.Visibility.Collapsed;
 					Button3.Visibility = System.Windows.Visibility.Collapsed;
+
+					_resultMappings.Add(Button1.Name, DialogResult.Ok);
 					break;
 				case MessageBoxButtons.OkCancel:
 					Button1.Content = Properties.Resources.OkButtonText;
 					Button2.Visibility = System.Windows.Visibility.Collapsed;
 					Button3.Content = Properties.Resources.CancelButtonText;
 					Button3.Visibility = System.Windows.Visibility.Visible;
+
+					_resultMappings.Add(Button1.Name, DialogResult.Ok);
+					_resultMappings.Add(Button3.Name, DialogResult.Cancel);
 					break;
 				case MessageBoxButtons.RetryCancel:
 					Button1.Content = Properties.Resources.RetryButtonText;
 					Button2.Visibility = System.Windows.Visibility.Collapsed;
 					Button3.Content = Properties.Resources.CancelButtonText;
 					Button3.Visibility = System.Windows.Visibility.Visible;
+
+					_resultMappings.Add(Button1.Name, DialogResult.Ok);
+					_resultMappings.Add(Button3.Name, DialogResult.Cancel);
 					break;
 				case MessageBoxButtons.YesNo:
 					Button1.Visibility = System.Windows.Visibility.Visible;
@@ -157,6 +197,10 @@ namespace Inixe.InixDialogs
 					Button2.Visibility = System.Windows.Visibility.Visible;
 					Button2.Content = Properties.Resources.NoButtonText;
 
+					Button3.Visibility = System.Windows.Visibility.Collapsed;
+
+					_resultMappings.Add(Button1.Name, DialogResult.Yes);
+					_resultMappings.Add(Button2.Name, DialogResult.No);
 					break;
 				case MessageBoxButtons.YesNoCancel:
 					Button1.Visibility = System.Windows.Visibility.Visible;
@@ -167,15 +211,42 @@ namespace Inixe.InixDialogs
 
 					Button3.Content = Properties.Resources.CancelButtonText;
 					Button3.Visibility = System.Windows.Visibility.Visible;
+
+					_resultMappings.Add(Button1.Name, DialogResult.Yes);
+					_resultMappings.Add(Button2.Name, DialogResult.No);
+					_resultMappings.Add(Button3.Name, DialogResult.Cancel);
 					break;
 			}  
 		}
 
+		/// <summary>
+		/// Gets the dialog result once the dialog is closing.
+		/// </summary>
+		/// <param name="identifier">The identifier.</param>
+		/// <returns>System.Object.</returns>
+		/// <remarks>None</remarks>
 		protected sealed override object GetDialogResult(DialogResult identifier)
 		{
 			return identifier;
 		}
 
+		/// <summary>
+		/// Called when message content template has changed.
+		/// </summary>
+		/// <param name="oldValue">The old value.</param>
+		/// <param name="newValue">The new value.</param>
+		/// <remarks>None</remarks>
+		protected virtual void OnMessageContentTemplateChanged(DataTemplate oldValue, DataTemplate newValue)
+		{
+			// TODO: Add your property changed side-effects. Descendants can override as well.
+		}
+
+		/// <summary>
+		/// Called when message box icon has changed.
+		/// </summary>
+		/// <param name="oldValue">The old value.</param>
+		/// <param name="newValue">The new value.</param>
+		/// <remarks>None</remarks>
 		protected virtual void OnMessageBoxIconChanged(ImageSource oldValue, ImageSource newValue)
 		{
 			// TODO: Add your property changed side-effects. Descendants can override as well.
@@ -211,6 +282,12 @@ namespace Inixe.InixDialogs
 			return src;
 		}
 
+		/// <summary>
+		/// Handles the <see cref="E:MessageBoxIconChanged" /> event.
+		/// </summary>
+		/// <param name="o">The o.</param>
+		/// <param name="e">The <see cref="DependencyPropertyChangedEventArgs"/> instance containing the event data.</param>
+		/// <remarks>None</remarks>
 		private static void OnMessageBoxIconChanged(DependencyObject o, DependencyPropertyChangedEventArgs e)
 		{
 			MessageBoxDialog messageBoxDialog = o as MessageBoxDialog;
@@ -228,6 +305,19 @@ namespace Inixe.InixDialogs
 			MessageBoxDialog messageBoxDialog = o as MessageBoxDialog;
 			if (messageBoxDialog != null)
 				messageBoxDialog.OnMessageContentChanged((object)e.OldValue, (object)e.NewValue);
+		}
+
+		/// <summary>
+		/// Handles the <see cref="E:MessageContentTemplateChanged" /> event.
+		/// </summary>
+		/// <param name="o">The o.</param>
+		/// <param name="e">The <see cref="DependencyPropertyChangedEventArgs"/> instance containing the event data.</param>
+		/// <remarks>None</remarks>
+		private static void OnMessageContentTemplateChanged(DependencyObject o, DependencyPropertyChangedEventArgs e)
+		{
+			MessageBoxDialog messageBoxDialog = o as MessageBoxDialog;
+			if (messageBoxDialog != null)
+				messageBoxDialog.OnMessageContentTemplateChanged((DataTemplate)e.OldValue, (DataTemplate)e.NewValue);
 		}
 	}
 }
